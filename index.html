@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>La Mia Rosa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- MAIN STYLES -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- =====================================================
+     BLOCK 1: ANNOUNCEMENT BAR
+===================================================== -->
+<div class="announcement-bar">
+    <span class="announcement-bar__text is-active">
+        Free shipping on orders of ₺2500 and above.
+    </span>
+    <span class="announcement-bar__text">
+        Return & Exchange Guarantee
+    </span>
+    <span class="announcement-bar__text">
+        Launch Special: Up to 40% Discount
+    </span>
+</div>
+
+<!-- =====================================================
+     HEADER (SHOPIFY STYLE NAV TRIGGERS)
+===================================================== -->
+<header class="site-header" id="site-header">
+<!-- MOBILE BURGER -->
+<button class="burger" id="burgerBtn" aria-label="Menu">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
+  <!-- LOGO -->
+  <div class="header__logo">
+    <a href="index.html">
+      <span class="logo-line">La Mia</span>
+      <span class="logo-line">Rosa</span>
+    </a>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav class="header__nav">
+    <ul class="nav-list">
+
+      <li class="nav-item active">
+        <a href="index.html">Home</a>
+      </li>
+
+      <!-- DROPDOWN ITEM -->
+      <li class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button">
+          Outerwear
+          <span class="nav-caret"></span>
+        </button>
+        <ul class="dropdown">
+          <li><a href="collection.html?collection=knitwear">Knitwear</a></li>
+          <li><a href="collection.html?collection=blouse">Blouse</a></li>
+        </ul>
+      </li>
+
+      <!-- DROPDOWN ITEM -->
+      <li class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button">
+          Underwear
+          <span class="nav-caret"></span>
+        </button>
+        <ul class="dropdown">
+          <li><a href="collection.html?collection=jean">Jean</a></li>
+          <li><a href="collection.html?collection=skirt">Skirt</a></li>
+        </ul>
+      </li>
+
+      <!-- DROPDOWN ITEM -->
+      <li class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button">
+          Outerwear
+          <span class="nav-caret"></span>
+        </button>
+        <ul class="dropdown">
+          <li><a href="collection.html?collection=vest">Waistcoat</a></li>
+        </ul>
+      </li>
+
+      <li class="nav-item">
+        <a href="communication.html">Communication</a>
+      </li>
+
+      <li class="nav-item">
+        <a href="about.html">About Us</a>
+      </li>
+
+    </ul>
+  </nav>
+
+  <!-- ICONS -->
+  <div class="header__icons">
+
+    <!-- SEARCH BUTTON -->
+    <button id="openSearch" class="icon-btn" type="button" aria-label="Search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+
+    <!-- ACCOUNT -->
+    <button id="openAuth" class="icon-btn user-link" type="button" aria-label="Account">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.5">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </button>
+
+    <!-- CART -->
+    <a href="cart.html" class="icon-btn icon-cart" aria-label="Cart">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.5">
+        <circle cx="9" cy="21" r="1"/>
+        <circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.6 13h10.4l2-8H6"/>
+      </svg>
+      <span class="cart-count">1</span>
+    </a>
+
+  </div>
+</header>
+
+
+<!-- =====================================================
+     SEARCH OVERLAY (REQUIRED FOR JS)
+===================================================== -->
+<div class="search-overlay" id="searchOverlay">
+  <button class="search-close" id="closeSearch">✕</button>
+
+  <div class="search-box">
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search products..."
+      autocomplete="off"
+    />
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+
+<!-- =====================================================
+     HERO BLOCK
+===================================================== -->
+
+<section class="hero reveal">
+
+
+    <div class="hero__grid">
+
+        <!-- LEFT IMAGE -->
+        <div class="hero__item">
+            <img src="images/brown-zip-cardigan.jpg" alt="Brown zip cardigan">
+        </div>
+
+        <!-- CENTER IMAGE -->
+        <div class="hero__item hero__item--center">
+            <img src="images/main-photo.jpg" alt="Fall / Winter collection">
+        </div>
+
+        <!-- RIGHT IMAGE -->
+        <div class="hero__item">
+            <img src="images/black-zip-cardigan-1.jpg" alt="Black zip cardigan">
+        </div>
+
+    </div>
+
+    <!-- HERO TEXT -->
+    <div class="hero__content">
+        <h1 class="hero__title">
+            <span>Fall</span>
+            <span class="hero__slash">/</span>
+            <span>Winter 26</span>
+        </h1>
+
+        <!-- ✅ START SHOPPING → ALL COLLECTIONS -->
+        <a href="collection.html?collection=all"
+           class="hero__button">
+            Start Shopping
+        </a>
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     BLOCK 4: CATEGORIES
+===================================================== -->
+<section class="categories reveal">
+
+  <div class="categories__grid">
+
+    <!-- KNITWEAR -->
+    <a href="collection.html?collection=knitwear" class="category-card">
+      <div class="category-card__image">
+        <img src="images/black-zip-cardigan-2.jpg" alt="Knitwear">
+      </div>
+      <span class="category-title">Knitwear →</span>
+    </a>
+
+    <!-- BLOUSE -->
+    <a href="collection.html?collection=blouse" class="category-card">
+      <div class="category-card__image">
+        <img src="images/fitted-long-sleeve-light-1.jpg" alt="Blouse">
+      </div>
+      <span class="category-title">Blouse →</span>
+    </a>
+
+    <!-- WAISTCOAT -->
+    <a href="collection.html?collection=vest" class="category-card">
+      <div class="category-card__image">
+        <img src="images/vest-1.jpg" alt="Waistcoat">
+      </div>
+      <span class="category-title">Waistcoat →</span>
+    </a>
+
+  </div>
+
+</section>
+
+<!-- =====================================================
+     BLOCK: PROMO
+===================================================== -->
+<section class="promo reveal">
+
+    <div class="promo__content">
+
+        <p class="promo__line promo__line--top">
+            LANSMANA ÖZEL
+        </p>
+
+        <p class="promo__line promo__line--middle">
+            <span class="promo__percent">40%</span>
+            <span class="promo__varan">'a Varan</span>
+        </p>
+
+        <p class="promo__line promo__line--bottom">
+            İNDİRİM
+        </p>
+
+        <!-- ✅ DISCOVER NOW → ALL COLLECTIONS -->
+        <a href="collection.html?collection=all"
+           class="promo__button">
+            Discover Now
+        </a>
+
+    </div>
+</section>
+<!-- ==============================
+     PRODUCTS — FINAL CLEAN
+============================== -->
+<section class="products-clean reveal">
+
+  <div class="products-clean__row">
+
+    <!-- PRODUCT 1 -->
+    <a href="product.html?product=black-zip-cardigan" class="product-clean">
+      <div class="product-clean__image-wrapper">
+        <span class="product-clean__badge">Discount</span>
+        <div class="product-clean__image">
+          <img src="images/black-zip-cardigan-1.jpg" alt="">
+        </div>
+      </div>
+
+      <h3 class="product-clean__title">Side-Zip Turtleneck Sweater</h3>
+
+      <div class="product-clean__prices">
+        <span class="old">1,549.90 TL</span>
+        <span class="new">1,249.90 TL</span>
+      </div>
+    </a>
+
+
+    <!-- PRODUCT 2 -->
+    <a href="product.html?product=soft-maxi-cardigan-black" class="product-clean">
+      <div class="product-clean__image-wrapper">
+        <span class="product-clean__badge">Discount</span>
+        <div class="product-clean__image">
+          <img src="images/classic-black-cardigan-black-2.jpg" alt="">
+        </div>
+      </div>
+
+      <h3 class="product-clean__title">
+        Soft Maxi Cardigan with Beard Pattern – Black
+      </h3>
+
+      <div class="product-clean__prices">
+        <span class="old">1,749.90 TL</span>
+        <span class="new">1,699.90 TL</span>
+      </div>
+    </a>
+
+
+    <!-- PRODUCT 3 -->
+    <a href="product.html?product=hedgehog-cardigan-blue" class="product-clean">
+      <div class="product-clean__image-wrapper">
+        <span class="product-clean__badge">Discount</span>
+        <div class="product-clean__image">
+          <img src="images/classic-cardigan-light-1.jpg" alt="">
+        </div>
+      </div>
+
+      <h3 class="product-clean__title">Hedgehog Long Cardigan – Blue</h3>
+
+      <div class="product-clean__prices">
+        <span class="old">1,649.90 TL</span>
+        <span class="new">1,499.90 TL</span>
+      </div>
+    </a>
+
+
+    <!-- PRODUCT 4 -->
+    <a href="product.html?product=ethnic-cardigan-brown" class="product-clean">
+      <div class="product-clean__image-wrapper">
+        <span class="product-clean__badge">Discount</span>
+        <div class="product-clean__image">
+          <img src="images/ethnic-cardigan.jpg" alt="">
+        </div>
+      </div>
+
+      <h3 class="product-clean__title">
+        Ethnic Pattern Oversize Cardigan – Brown
+      </h3>
+
+      <div class="product-clean__prices">
+        <span class="old">1,799.90 TL</span>
+        <span class="new">1,599.90 TL</span>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="products-clean__button">
+    <a href="collection.html?collection=all">View all</a>
+  </div>
+
+</section>
+
+<!-- =====================================================
+     BLOCK: FOOTER
+===================================================== -->
+<footer class="site-footer reveal">
+
+
+    <!-- NEWSLETTER -->
+    <div class="footer-newsletter">
+        <p class="footer-newsletter__text">
+            Subscribe to our newsletter! Be the first to know about all our discounts and offers!
+        </p>
+
+        <form class="footer-newsletter__form" id="newsletterForm">
+            <input 
+                type="email" 
+                id="newsletterEmail"
+                placeholder="Email"
+                required
+            >
+            <button type="submit">→</button>
+        </form>
+
+        <p class="newsletter-message" id="newsletterMessage"></p>
+    </div>
+
+    <!-- FOOTER BOTTOM -->
+    <div class="footer-bottom">
+        <p class="footer-bottom__copyright">
+            © 2026, La Mia Rosa
+        </p>
+
+        <ul class="footer-links">
+            <li><button type="button" onclick="openPolicy('privacy')">Privacy policy</button></li>
+            <li><button type="button" onclick="openPolicy('refund')">Money-back policy</button></li>
+            <li><button type="button" onclick="openPolicy('terms')">Terms of Service</button></li>
+            <li><button type="button" onclick="openPolicy('shipping')">Shipping policy</button></li>
+            <li><button type="button" onclick="openPolicy('contact')">Contact information</button></li>
+            <li><button type="button" onclick="openPolicy('legal')">Legal notice</button></li>
+        </ul>
+    </div>
+
+</footer>
+
+
+<!-- =====================================================
+     AUTH OVERLAY — EMAIL LOGIN (SHOPIFY STYLE)
+===================================================== -->
+<div class="auth-overlay" id="authOverlay">
+
+    <button class="auth-close" id="closeAuth">✕</button>
+
+    <div class="auth-box">
+
+        <!-- ===== HEADER ===== -->
+        <div class="auth-section auth-login">
+            <h2 class="auth-title">Mağazam</h2>
+            <h3 class="auth-heading">Log in</h3>
+            <p class="auth-subtitle">
+                Log in or create an account with your email.
+            </p>
+        </div>
+
+        <div class="auth-divider">
+            <span>or</span>
+        </div>
+
+        <!-- ===== EMAIL INPUT ===== -->
+        <div class="auth-section auth-register" id="authRegister">
+            <h3 class="auth-heading">Continue with email</h3>
+
+            <input
+                type="email"
+                id="authEmail"
+                class="auth-input"
+                placeholder="Email"
+                autocomplete="email"
+            >
+
+            <button
+                class="auth-continue"
+                id="authSubmit"
+                type="button"
+            >
+                Continue
+            </button>
+
+            <p class="auth-message" id="authMessage"></p>
+        </div>
+
+        <!-- ===== EMAIL CODE ===== -->
+        <div
+            class="auth-section auth-code"
+            id="authCode"
+            style="display:none;"
+        >
+            <h3 class="auth-heading">Enter the code</h3>
+            <p class="auth-subtitle">
+                We sent a 6-digit code to your email.
+            </p>
+
+            <input
+                type="text"
+                id="emailCodeInput"
+                class="auth-input"
+                placeholder="6-digit code"
+                maxlength="6"
+                inputmode="numeric"
+            >
+
+            <button
+                class="auth-continue"
+                id="emailCodeSubmit"
+                type="button"
+            >
+                Verify
+            </button>
+
+            <p class="auth-message" id="emailCodeMessage"></p>
+        </div>
+
+        <!-- ===== ACCOUNT (LOGGED IN) ===== -->
+        <div
+            class="auth-section auth-account"
+            id="authAccount"
+            style="display:none;"
+        >
+            <h3 class="auth-heading">My account</h3>
+
+            <p class="auth-subtitle">
+                You are logged in as:
+            </p>
+
+            <p class="auth-account-email" id="accountEmail"></p>
+
+            <button
+                class="auth-continue auth-logout"
+                id="logoutBtn"
+                type="button"
+            >
+                Log out
+            </button>
+        </div>
+
+        <!-- ===== LINKS ===== -->
+        <div class="auth-links">
+            <a href="#">Privacy policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+
+    </div>
+</div>
+
+<!-- MAIN SCRIPT -->
+<script src="main.js"></script>
+<!-- =====================================================
+     POLICY MODAL (FOR FOOTER LINKS)
+===================================================== -->
+<div class="policy-modal" id="policyModal">
+  <div class="policy-modal__content">
+
+    <button class="policy-modal__close" id="policyClose">✕</button>
+
+    <h2 class="policy-modal__title" id="policyTitle"></h2>
+
+    <div class="policy-modal__body" id="policyBody"></div>
+
+  </div>
+</div>
+ 
+</body>
+</html>
+

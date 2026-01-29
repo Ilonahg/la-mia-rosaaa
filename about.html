@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>About Us | La Mia Rosa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- GOOGLE FONT -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- MAIN CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- =====================================================
+     BLOCK 1: ANNOUNCEMENT BAR
+===================================================== -->
+<div class="announcement-bar">
+    <span class="announcement-bar__text is-active">
+        Free shipping on orders of ₺2500 and above.
+    </span>
+    <span class="announcement-bar__text">
+        Return & Exchange Guarantee
+    </span>
+    <span class="announcement-bar__text">
+        Launch Special: Up to 40% Discount
+    </span>
+</div>
+
+<!-- =====================================================
+     HEADER (SHOPIFY STYLE NAV TRIGGERS)
+===================================================== -->
+<header class="site-header" id="site-header">
+
+  <!-- LOGO -->
+  <div class="header__logo">
+    <a href="index.html">
+      <span class="logo-line">La Mia</span>
+      <span class="logo-line">Rosa</span>
+    </a>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav class="header__nav">
+    <ul class="nav-list">
+
+      <li class="nav-item">
+        <a href="index.html">Home</a>
+      </li>
+
+      <!-- DROPDOWN ITEM -->
+      <li class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button">
+          Outerwear
+          <span class="nav-caret"></span>
+        </button>
+        <ul class="dropdown">
+          <li><a href="collection.html?collection=knitwear">Knitwear</a></li>
+          <li><a href="collection.html?collection=blouse">Blouse</a></li>
+        </ul>
+      </li>
+
+      <!-- DROPDOWN ITEM -->
+      <li class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button">
+          Underwear
+          <span class="nav-caret"></span>
+        </button>
+        <ul class="dropdown">
+          <li><a href="collection.html?collection=jean">Jean</a></li>
+          <li><a href="collection.html?collection=skirt">Skirt</a></li>
+        </ul>
+      </li>
+
+      <!-- DROPDOWN ITEM -->
+      <li class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button">
+          Outerwear
+          <span class="nav-caret"></span>
+        </button>
+        <ul class="dropdown">
+          <li><a href="collection.html?collection=vest">Waistcoat</a></li>
+        </ul>
+      </li>
+
+      <li class="nav-item">
+        <a href="communication.html">Communication</a>
+      </li>
+
+      <li class="nav-item active">
+        <a href="about.html">About Us</a>
+      </li>
+
+    </ul>
+  </nav>
+
+  <!-- ICONS -->
+  <div class="header__icons">
+
+    <!-- SEARCH BUTTON -->
+    <button id="openSearch" class="icon-btn" type="button" aria-label="Search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+
+    <!-- ACCOUNT -->
+    <button id="openAuth" class="icon-btn user-link" type="button" aria-label="Account">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.5">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </button>
+
+    <!-- CART -->
+    <a href="cart.html" class="icon-btn icon-cart" aria-label="Cart">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.5">
+        <circle cx="9" cy="21" r="1"/>
+        <circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.6 13h10.4l2-8H6"/>
+      </svg>
+      <span class="cart-count">1</span>
+    </a>
+
+  </div>
+</header>
+
+<!-- =====================================================
+     SEARCH OVERLAY (REQUIRED FOR JS)
+===================================================== -->
+<div class="search-overlay" id="searchOverlay">
+  <button class="search-close" id="closeSearch">✕</button>
+
+  <div class="search-box">
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search products..."
+      autocomplete="off"
+    />
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+<!-- =====================================================
+     ABOUT PAGE
+===================================================== -->
+<main class="about-page">
+
+  <div class="container about-container">
+
+    <h1 class="page-title">About Us</h1>
+
+    <div class="about-content">
+
+      <p>
+        <strong>La Mia Rosa</strong> is a fashion brand that brings together exclusive
+        collections reflecting the timeless elegance, confidence, and style of the modern woman.
+      </p>
+
+      <p>
+        Our brand aims to bring together pieces that allow women of all sizes and ages
+        to feel strong, attractive, and comfortable. While closely following fashion trends,
+        we meticulously select collections each season that offer a simple yet striking design.
+      </p>
+
+      <p>
+        La Mia Rosa's style philosophy is born from a fusion of effortless elegance,
+        refined details, and the modern feminine spirit. We believe that an outfit transforms
+        a woman not only through its appearance but also through the feelings it evokes.
+      </p>
+
+      <p>
+        Therefore, every piece in our collections is carefully selected to help women
+        reflect their own inner light.
+      </p>
+
+      <p>
+        La Mia Rosa, which began its journey with an amateur boutique spirit,
+        aims to reach more and more women every day with its visionary brand identity.
+      </p>
+
+      <p>
+        In the coming period, our goal is to contribute to women's ability to express
+        themselves uniquely by offering selections that inspire different styles and lifestyles.
+      </p>
+
+      <p class="about-signature">
+        <strong>La Mia Rosa — Not a trend, a timeless feeling.</strong>
+      </p>
+
+    </div>
+
+  </div>
+
+</main>
+
+<!-- =====================================================
+     BLOCK: FOOTER
+===================================================== -->
+<footer class="site-footer">
+
+    <!-- NEWSLETTER -->
+    <div class="footer-newsletter">
+        <p class="footer-newsletter__text">
+            Subscribe to our newsletter! Be the first to know about all our discounts and offers!
+        </p>
+
+        <form class="footer-newsletter__form" id="newsletterForm">
+            <input 
+                type="email" 
+                id="newsletterEmail"
+                placeholder="Email"
+                required
+            >
+            <button type="submit">→</button>
+        </form>
+
+        <p class="newsletter-message" id="newsletterMessage"></p>
+    </div>
+
+    <!-- FOOTER BOTTOM -->
+    <div class="footer-bottom">
+        <p class="footer-bottom__copyright">
+            © 2026, La Mia Rosa
+        </p>
+
+        <ul class="footer-links">
+            <li><button type="button" onclick="openPolicy('privacy')">Privacy policy</button></li>
+            <li><button type="button" onclick="openPolicy('refund')">Money-back policy</button></li>
+            <li><button type="button" onclick="openPolicy('terms')">Terms of Service</button></li>
+            <li><button type="button" onclick="openPolicy('shipping')">Shipping policy</button></li>
+            <li><button type="button" onclick="openPolicy('contact')">Contact information</button></li>
+            <li><button type="button" onclick="openPolicy('legal')">Legal notice</button></li>
+        </ul>
+    </div>
+
+</footer>
+<!-- =====================================================
+     AUTH OVERLAY — EMAIL LOGIN (SHOPIFY STYLE)
+===================================================== -->
+<div class="auth-overlay" id="authOverlay">
+
+    <button class="auth-close" id="closeAuth">✕</button>
+
+    <div class="auth-box">
+
+        <!-- ===== HEADER ===== -->
+        <div class="auth-section auth-login">
+            <h2 class="auth-title">Mağazam</h2>
+            <h3 class="auth-heading">Log in</h3>
+            <p class="auth-subtitle">
+                Log in or create an account with your email.
+            </p>
+        </div>
+
+        <div class="auth-divider">
+            <span>or</span>
+        </div>
+
+        <!-- ===== EMAIL INPUT ===== -->
+        <div class="auth-section auth-register" id="authRegister">
+            <h3 class="auth-heading">Continue with email</h3>
+
+            <input
+                type="email"
+                id="authEmail"
+                class="auth-input"
+                placeholder="Email"
+                autocomplete="email"
+            >
+
+            <button
+                class="auth-continue"
+                id="authSubmit"
+                type="button"
+            >
+                Continue
+            </button>
+
+            <p class="auth-message" id="authMessage"></p>
+        </div>
+
+        <!-- ===== EMAIL CODE ===== -->
+        <div
+            class="auth-section auth-code"
+            id="authCode"
+            style="display:none;"
+        >
+            <h3 class="auth-heading">Enter the code</h3>
+            <p class="auth-subtitle">
+                We sent a 6-digit code to your email.
+            </p>
+
+            <input
+                type="text"
+                id="emailCodeInput"
+                class="auth-input"
+                placeholder="6-digit code"
+                maxlength="6"
+                inputmode="numeric"
+            >
+
+            <button
+                class="auth-continue"
+                id="emailCodeSubmit"
+                type="button"
+            >
+                Verify
+            </button>
+
+            <p class="auth-message" id="emailCodeMessage"></p>
+        </div>
+
+        <!-- ===== ACCOUNT (LOGGED IN) ===== -->
+        <div
+            class="auth-section auth-account"
+            id="authAccount"
+            style="display:none;"
+        >
+            <h3 class="auth-heading">My account</h3>
+
+            <p class="auth-subtitle">
+                You are logged in as:
+            </p>
+
+            <p class="auth-account-email" id="accountEmail"></p>
+
+            <button
+                class="auth-continue auth-logout"
+                id="logoutBtn"
+                type="button"
+            >
+                Log out
+            </button>
+        </div>
+
+        <!-- ===== LINKS ===== -->
+        <div class="auth-links">
+            <a href="#">Privacy policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+
+    </div>
+</div>
+
+
+<script src="main.js"></script>
+<!-- =====================================================
+     POLICY MODAL
+===================================================== -->
+<div class="policy-modal" id="policyModal">
+  <div class="policy-modal__box">
+
+    <button class="policy-modal__close" id="policyClose">✕</button>
+
+    <h2 id="policyTitle"></h2>
+
+    <div class="policy-modal__content" id="policyBody"></div>
+
+  </div>
+</div>
+
+</body>
+</html>

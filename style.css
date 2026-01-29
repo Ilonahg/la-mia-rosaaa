@@ -1,0 +1,4092 @@
+/* =====================================================
+   GLOBAL DESIGN SYSTEM — LA MIA ROSA
+   Quiet Luxury / Editorial Calm
+===================================================== */
+
+:root {
+    /* Core tones */
+    --black: #111111;
+    --white: #ffffff;
+    --soft-white: #fbfaf8;
+
+    /* Neutrals */
+    --gray-light: #ecebea;
+    --gray: #8c8c8c;
+
+    /* Brand DNA */
+    --rosa: #8f1d2c;                 
+    --rosa-muted: rgba(143, 29, 44, 0.18);
+
+    /* Motion */
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --luxury-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --luxury-slow: 0.9s;
+    --luxury-medium: 0.6s;
+}
+
+/* =====================================================
+   GLOBAL RESET — CLEAN BASE
+===================================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 300;
+
+    color: var(--black);
+    background-color: var(--white);
+
+    letter-spacing: 0.3px;   /* було менше */
+    line-height: 1.75;       /* було 1.6–1.65 */
+
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+
+/* =====================================================
+   ANNOUNCEMENT BAR — SILENT LUXURY
+===================================================== */
+
+.announcement-bar {
+    position: relative;
+    height: 42px;
+
+    background-color: var(--soft-white);
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+
+    overflow: hidden;
+    text-align: center;
+}
+
+.announcement-bar__text {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 10.5px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+
+    color: var(--black);
+    opacity: 0;
+
+    transition: opacity 1.1s var(--ease);
+}
+
+.announcement-bar__text.is-active {
+    opacity: 1;
+}
+
+/* =====================================================
+   HEADER — GLASS EDITORIAL BAR
+===================================================== */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 104px;
+    padding: 0 60px;
+    gap: 40px;
+
+    background: rgba(255, 255, 255, 0.94);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+/* Glass state */
+
+body.is-scrolled .site-header {
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    border-bottom-color: rgba(0, 0, 0, 0.06);
+}
+
+/* =====================================================
+   LOGO — QUIET CONFIDENCE
+===================================================== */
+
+.header__logo a {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    line-height: 1;
+    text-decoration: none;
+    color: var(--black);
+}
+
+.header__logo .logo-line {
+    display: block;
+    font-size: 46px;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+}
+
+.header__logo .logo-line:first-child {
+    margin-bottom: 3px;
+}
+
+body.is-scrolled .header__logo {
+    opacity: 0.9;
+    transition: opacity 0.7s var(--ease);
+}
+
+/* =====================================================
+   NAVIGATION — FLEX FIX (STABLE HEADER LAYOUT)
+===================================================== */
+
+.header__nav {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.header__nav .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 34px;
+    white-space: nowrap;
+
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* LINKS */
+
+.header__nav a {
+    position: relative;
+
+    font-size: 11.5px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+
+    color: var(--black);
+    text-decoration: none;
+
+    padding-bottom: 6px;
+    opacity: 0.9;
+
+    transition: opacity 0.4s var(--ease);
+}
+
+.header__nav a:hover {
+    opacity: 1;
+}
+
+/* Rosa underline */
+
+.header__nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 0;
+    height: 1px;
+
+    background-color: var(--rosa);
+    transition: width 0.5s var(--ease);
+}
+
+.header__nav a:hover::after,
+.nav-item.active a::after {
+    width: 100%;
+}
+
+
+/* =====================================================
+   DROPDOWN — FLOATING EDITORIAL PANEL
+===================================================== */
+
+.nav-item {
+    position: relative;
+}
+
+.dropdown {
+    position: absolute;
+    top: calc(100% + 20px);
+    left: -18px;
+
+    min-width: 200px;
+    padding: 20px 0;
+
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 8px;
+
+    list-style: none;
+
+    opacity: 0;
+    transform: translateY(16px);
+    pointer-events: none;
+
+    transition:
+        opacity 0.55s var(--ease),
+        transform 0.55s var(--ease);
+}
+
+.dropdown li {
+    padding: 11px 28px;
+}
+
+.dropdown a {
+    display: block;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    color: var(--black);
+    text-decoration: none;
+
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.dropdown a:hover {
+    opacity: 1;
+}
+
+/* Show */
+
+ 
+/* =====================================================
+   HEADER ICONS — SILENT DETAILS
+   Almost invisible, never loud
+===================================================== */
+
+.header__icons {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header__icons .icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: none;
+    border: none;
+    padding: 0;
+
+    color: var(--black);
+    cursor: pointer;
+    text-decoration: none;
+
+    opacity: 0.82;
+    transition: opacity 0.45s var(--ease);
+}
+
+.header__icons .icon-btn:hover {
+    opacity: 1;
+}
+
+/* Cart count — subtle, not notification style */
+
+.icon-cart {
+    position: relative;
+}
+
+.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+
+    font-size: 9px;
+    letter-spacing: 0.6px;
+    color: var(--black);
+
+    opacity: 0.7;
+}
+
+/* =====================================================
+   SEARCH — HEADER MINIMAL TRIGGER
+===================================================== */
+
+.search {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search__icon {
+    background: none;
+    border: none;
+    padding: 2px;
+    cursor: pointer;
+
+    opacity: 0.85;
+    transition: opacity 0.4s var(--ease);
+}
+
+.search__icon:hover {
+    opacity: 1;
+}
+
+/* =====================================================
+   SEARCH OVERLAY — EDITORIAL MOOD LAYER
+===================================================== */
+
+.search-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    background: rgba(12, 12, 12, 0.58);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    display: none;
+    overflow-y: auto;
+}
+
+.search-overlay.active {
+    display: block;
+}
+
+/* Center container */
+
+.search-box {
+    max-width: 720px;
+    margin: 140px auto;
+    padding: 0 32px;
+}
+
+/* =====================================================
+   SEARCH INPUT — CAMPAIGN TYPOGRAPHY
+===================================================== */
+
+#searchInput {
+    width: 100%;
+    padding: 20px 0;
+
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+
+    font-family: "Playfair Display", serif;
+    font-size: 30px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+
+    color: #ffffff;
+    outline: none;
+
+    transition: border-color 0.5s var(--ease);
+}
+
+#searchInput::placeholder {
+    color: rgba(255, 255, 255, 0.38);
+}
+
+/* Rosa focus — soft, not bright */
+
+#searchInput:focus {
+    border-bottom-color: var(--rosa);
+}
+
+/* =====================================================
+   SEARCH RESULTS — CALM LIST
+===================================================== */
+
+.search-results {
+    margin-top: 48px;
+}
+
+/* Item */
+
+.search-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    padding: 18px 0;
+    cursor: pointer;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    transition: opacity 0.35s ease;
+}
+
+.search-item:hover {
+    opacity: 0.75;
+}
+
+.search-item img {
+    width: 60px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 3px;
+}
+
+/* Title */
+
+.search-item-title {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+/* =====================================================
+   CLOSE BUTTON — QUIET ACCENT
+===================================================== */
+
+.search-close {
+    position: fixed;
+    top: 36px;
+    right: 36px;
+
+    font-size: 24px;
+    line-height: 1;
+
+    color: var(--rosa);
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    opacity: 0.8;
+    transition: opacity 0.35s var(--ease);
+}
+
+.search-close:hover {
+    opacity: 1;
+}
+
+ 
+/* =====================================================
+   SEARCH IMAGE SIZE — LUXURY ADJUSTMENT
+===================================================== */
+
+.search-item img {
+    width: 72px;          /* було ~54 */
+    height: 96px;         /* було ~72 */
+    object-fit: cover;
+    border-radius: 3px;
+}
+
+/* більше повітря між елементами */
+
+.search-item {
+    gap: 20px;
+    padding: 20px 0;
+}
+
+ 
+
+/* =====================================================
+   AUTH OVERLAY — LUXURY / SHOPIFY STYLE
+   Calm, centered, brand-safe
+===================================================== */
+
+.auth-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-overlay.active {
+    display: flex;
+}
+
+/* =====================================================
+   AUTH BOX — CLEAN MODAL
+===================================================== */
+
+.auth-box {
+    position: relative;
+
+    width: 100%;
+    max-width: 420px;
+
+    background: #ffffff;
+    padding: 42px 36px;
+    border-radius: 12px;
+
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+/* =====================================================
+   TITLES & TEXT
+===================================================== */
+
+.auth-title {
+    font-size: 26px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.auth-heading {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.auth-subtitle {
+    font-size: 14px;
+    color: #666666;
+    margin-bottom: 24px;
+}
+
+/* =====================================================
+   EXTERNAL AUTH (SHOPIFY / PROVIDER)
+===================================================== */
+
+.auth-shopify {
+    width: 100%;
+    padding: 14px;
+
+    background: #5b3df5;
+    color: #ffffff;
+
+    border: none;
+    border-radius: 6px;
+
+    font-size: 14px;
+    cursor: pointer;
+
+    margin-bottom: 24px;
+    transition: opacity 0.25s ease;
+}
+
+.auth-shopify:hover {
+    opacity: 0.9;
+}
+
+/* =====================================================
+   DIVIDER
+===================================================== */
+
+.auth-divider {
+    display: flex;
+    align-items: center;
+    margin: 24px 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #dddddd;
+}
+
+.auth-divider span {
+    margin: 0 12px;
+    font-size: 13px;
+    color: #888888;
+}
+
+/* =====================================================
+   INPUTS
+===================================================== */
+
+.auth-input {
+    width: 100%;
+    padding: 14px;
+
+    border: 1px solid #dddddd;
+    border-radius: 6px;
+
+    font-size: 14px;
+    margin-bottom: 14px;
+}
+
+.auth-input:focus {
+    outline: none;
+    border-color: var(--rosa);
+}
+
+/* =====================================================
+   PRIMARY ACTION
+===================================================== */
+
+.auth-continue {
+    width: 100%;
+    padding: 14px;
+
+    background: var(--black);
+    color: #ffffff;
+
+    border: none;
+    border-radius: 6px;
+
+    font-size: 15px;
+    cursor: pointer;
+
+    margin-top: 4px;
+    transition: opacity 0.25s ease;
+}
+
+.auth-continue:hover {
+    opacity: 0.9;
+}
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+.auth-message {
+    min-height: 18px;
+    margin-top: 10px;
+
+    font-size: 13px;
+    text-align: center;
+    color: #c0392b;
+}
+
+/* =====================================================
+   LINKS
+===================================================== */
+
+.auth-links {
+    margin-top: 24px;
+    font-size: 12px;
+}
+
+.auth-links a {
+    color: var(--black);
+    text-decoration: none;
+    margin: 0 8px;
+
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.25s ease;
+}
+
+.auth-links a:hover {
+    border-bottom-color: var(--rosa);
+}
+
+/* =====================================================
+   CLOSE BUTTON
+===================================================== */
+
+.auth-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+
+    font-size: 22px;
+    background: none;
+    border: none;
+
+    cursor: pointer;
+    color: #999999;
+
+    transition: color 0.25s ease;
+}
+
+.auth-close:hover {
+    color: var(--black);
+}
+/* =====================================================
+   BLOCK: HERO — ROSA EDITORIAL
+   Quiet luxury / Campaign feel
+===================================================== */
+
+.hero {
+    position: relative;
+    width: 100%;
+    padding: 180px 80px;   /* було 120 */
+
+    background-color: var(--soft-white);
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   HERO GRID
+===================================================== */
+
+.hero__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr 1fr;
+    gap: 22px;
+
+    border-radius: 28px;
+    overflow: hidden;
+}
+
+/* =====================================================
+   HERO IMAGES
+===================================================== */
+
+.hero__item {
+    overflow: hidden;
+}
+
+.hero__item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+
+    transform: scale(1.05);
+    transition: transform 3.2s var(--luxury-ease);
+
+}
+
+/* Calm, cinematic hover */
+
+.hero:hover .hero__item img {
+    transform: scale(1.12);  /* було різкіше */
+}
+
+/* =====================================================
+   CINEMATIC OVERLAY
+===================================================== */
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.04),
+        rgba(0, 0, 0, 0.30)
+    );
+
+    pointer-events: none;
+}
+
+
+/* =====================================================
+   HERO CONTENT
+===================================================== */
+
+.hero__content {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+    text-align: center;
+
+    color: var(--white);
+    z-index: 2;
+}
+
+/* =====================================================
+   HERO TITLE
+===================================================== */
+
+.hero__content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 68px;              /* було 82–84 */
+    font-weight: 400;
+    font-style: italic;
+
+    letter-spacing: 2px;          /* менше театру */
+    line-height: 1.1;
+
+    margin-bottom: 40px;
+    position: relative;
+
+    text-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.18),
+        0 30px 60px rgba(0, 0, 0, 0.22);
+}
+
+.hero__content h1::after {
+    content: "";
+    display: block;
+
+    width: 76px;
+    height: 1px;
+
+    background-color: var(--rosa);
+    margin: 34px auto 0;
+
+    opacity: 0.9;
+}
+
+/* =====================================================
+   HERO BUTTON — SILK TOUCH
+===================================================== */
+
+.hero__button {
+    display: inline-block;
+    padding: 18px 56px;
+
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+
+    color: var(--white);
+    font-size: 12px;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    text-decoration: none;
+
+    transition:
+      background-color 0.7s var(--luxury-ease),
+      color 0.7s var(--luxury-ease),
+      border-color 0.7s var(--luxury-ease);
+}
+
+.hero__button:hover {
+    background-color: var(--white);
+    color: var(--black);
+}
+/* =====================================================
+   HEADER DROPDOWN — FLOATING GALLERY
+   Editorial / Quiet luxury
+===================================================== */
+
+.nav-item {
+    position: relative;
+}
+
+.dropdown {
+    position: absolute;
+    top: calc(100% + 22px);
+    left: -20px;
+
+    min-width: 200px;
+    padding: 20px 0;
+
+    background-color: var(--white);
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+
+    list-style: none;
+
+    opacity: 0;
+    transform: translateY(14px);
+    pointer-events: none;
+
+    transition:
+        opacity 0.5s var(--ease),
+        transform 0.5s var(--ease);
+}
+
+/* =====================================================
+   DROPDOWN ITEMS
+===================================================== */
+
+.dropdown li {
+    padding: 10px 28px;
+}
+
+.dropdown a {
+    position: relative;
+    display: block;
+
+    font-size: 13px;
+    letter-spacing: 0.6px;
+    text-transform: none;
+
+    color: var(--black);
+    text-decoration: none;
+
+    transition: opacity 0.25s ease;
+}
+
+.dropdown a:hover {
+    opacity: 0.7;
+}
+
+/* =====================================================
+   DROPDOWN UNDERLINE — ROSA BRAND LINE (MATCH HEADER)
+===================================================== */
+
+.dropdown a {
+    position: relative;
+}
+
+.dropdown a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0;
+    height: 1px;
+    background-color: var(--rosa);
+    transition: width 0.35s var(--ease);
+}
+
+.dropdown a:hover::after {
+    width: 100%;
+}
+
+
+/* SHOW DROPDOWN — JS CONTROL */
+.nav-item.has-dropdown.open .dropdown {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+
+/* =====================================================
+   CART ICON
+===================================================== */
+
+.icon-cart {
+    position: relative;
+}
+
+.cart-count {
+    position: absolute;
+    top: -6px;
+    right: -10px;
+
+    font-size: 10px;
+    letter-spacing: 0.6px;
+}
+/* =====================================================
+   BLOCK: HERO — ROSA EDITORIAL
+   Campaign / Quiet luxury
+===================================================== */
+
+.hero {
+    position: relative;
+    width: 100%;
+    padding: 120px 72px;
+
+    background-color: var(--soft-white);
+    overflow: hidden;
+}
+
+/* =====================================================
+   HERO GRID
+===================================================== */
+
+.hero__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr 1fr;
+    gap: 22px;
+
+    border-radius: 28px;
+    overflow: hidden;
+}
+
+/* =====================================================
+   HERO IMAGES
+===================================================== */
+
+.hero__item {
+    overflow: hidden;
+}
+
+.hero__item img {
+    width: 100%;
+    height: 100%;
+    display: block;
+
+    object-fit: cover;
+
+    transform: scale(1.05);
+    transition: transform 2.4s var(--ease);
+}
+
+/* Center image — dominant, calm */
+
+.hero__item--center img {
+    transform: scale(1.1);
+}
+
+/* Silk hover — slow & cinematic */
+
+.hero:hover .hero__item img {
+    transform: scale(1.16);
+}
+
+/* =====================================================
+   CINEMATIC OVERLAY
+===================================================== */
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.08),
+        rgba(0, 0, 0, 0.42)
+    );
+
+    pointer-events: none;
+}
+
+/* =====================================================
+   HERO CONTENT
+===================================================== */
+
+.hero__content {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+    text-align: center;
+
+    color: var(--white);
+    z-index: 2;
+}
+
+/* =====================================================
+   HERO TITLE
+===================================================== */
+
+.hero__content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 84px;
+    font-weight: 400;
+    font-style: italic;
+
+    letter-spacing: 3.2px;
+    line-height: 1.05;
+
+    margin-bottom: 48px;
+    position: relative;
+    color: #F2EFEA; /* дорогий айворі замість чистого білого */
+
+
+    text-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.25),
+        0 40px 80px rgba(0, 0, 0, 0.35);
+    
+}
+
+/* =====================================================
+   ROSA SIGNATURE — BRAND DNA
+===================================================== */
+
+.hero__content h1::after {
+    content: "";
+    display: block;
+
+    width: 88px;
+    height: 1px;
+
+    background-color: rgba(143, 29, 44, 0.85);
+    margin: 36px auto 0;
+
+    opacity: 0.95;
+     
+}
+
+/* =====================================================
+   BUTTON — SILK TOUCH (HERO / PROMO SHARED LOGIC)
+===================================================== */
+
+.hero__button,
+.promo__button {
+    display: inline-block;
+    padding: 18px 58px;
+
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+
+    color: var(--white);
+    font-size: 12px;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    text-decoration: none;
+
+    transition:
+        background-color 0.55s var(--ease),
+        color 0.55s var(--ease);
+}
+
+.hero__button:hover,
+.promo__button:hover {
+    background-color: var(--white);
+    color: var(--black);
+}
+
+/* =====================================================
+   BLOCK: CATEGORIES — ROSA LOOKBOOK
+   Editorial / Calm
+===================================================== */
+
+.categories {
+    padding: 200px 120px;  /* більше простору */
+    background-color: var(--white);
+}
+
+
+/* Grid */
+
+.categories__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 72px;
+}
+
+/* Card */
+
+.category-card {
+    position: relative;
+    display: block;
+
+    text-decoration: none;
+    color: var(--black);
+}
+
+/* Image */
+
+.category-card img {
+    width: 100%;
+    display: block;
+
+    border-radius: 28px;
+
+    transform: scale(1.04);
+    transition: transform 2.2s var(--ease);
+}
+
+/* Silk hover */
+
+.category-card:hover img {
+    transform: scale(1.07);
+}
+
+/* Title */
+
+.category-title {
+    display: inline-block;
+    margin-top: 24px;
+
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 2px;
+
+    position: relative;
+    padding-bottom: 10px;
+}
+
+
+/* Rosa underline — brand signature */
+
+.category-title::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+
+    width: 36px;
+    height: 1px;
+
+    background-color: var(--rosa);
+    opacity: 0.85;
+
+    left: 50%;
+    transform: translateX(-50%) translateX(-2px); /* ← ОПТИЧНА КОРЕКЦІЯ */
+
+    transition: width 0.5s var(--ease);
+}
+
+
+.category-card:hover .category-title::after {
+    width: 64px;
+}
+
+/* =====================================================
+   BLOCK: PROMO — ROSA STATEMENT (NOT SALE)
+   Fashion statement, not discount banner
+===================================================== */
+
+.promo {
+    position: relative;
+    width: 100%;
+
+    background-color: var(--black);
+    color: var(--white);
+
+    padding: 200px 72px;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Silent texture */
+
+.promo::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: radial-gradient(
+        rgba(255, 255, 255, 0.035) 1px,
+        transparent 1px
+    );
+    background-size: 5px 5px;
+
+    opacity: 0.12;
+    pointer-events: none;
+}
+
+/* Content */
+
+.promo__content {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Top line */
+
+.promo__line--top {
+    font-size: 12px;
+    letter-spacing: 4.5px;
+    text-transform: uppercase;
+
+    margin-bottom: 46px;
+    opacity: 0.7;
+}
+
+/* Middle line */
+
+.promo__line--middle {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 22px;
+
+    margin-bottom: 36px;
+}
+
+/* Percent — quiet red */
+
+.promo__percent {
+    font-size: 92px;      /* було 112 */
+    font-weight: 400;     /* легше */
+    line-height: 1;
+
+    color: rgba(143, 29, 44, 0.85); /* менш агресивний */
+}
+
+
+.promo__varan {
+    font-size: 42px;
+    font-weight: 400;
+
+    color: var(--rosa);
+}
+
+/* Bottom line */
+
+.promo__line--bottom {
+    font-size: 50px;
+    font-weight: 400;
+    letter-spacing: 3.2px;
+
+    margin-bottom: 72px;
+}
+
+/* Rosa divider */
+
+.promo__line--bottom::after {
+    content: "";
+    display: block;
+
+    width: 68px;
+    height: 1px;
+
+    background-color: var(--rosa);
+    opacity: 0.85;
+
+    margin: 42px auto 0;
+}
+/* =====================================================
+   PRODUCTS — FINAL CLEAN
+===================================================== */
+
+.products-clean {
+    width: 100%;
+    padding: 160px 72px;
+    background: var(--white);
+}
+
+/* =====================================================
+   PRODUCTS ROW
+===================================================== */
+
+.products-clean__row {
+    display: flex;
+    gap: 72px;
+}
+
+/* =====================================================
+   PRODUCT CARD
+===================================================== */
+
+.product-clean {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* =====================================================
+   IMAGE SYSTEM (FIXED BADGE BEHAVIOR)
+===================================================== */
+
+.product-clean__image-wrapper {
+    position: relative;
+}
+
+.product-clean__image {
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.product-clean__image img {
+    width: 100%;
+    display: block;
+    transform: scale(1.02);
+    transition: transform 1.8s var(--ease);
+}
+
+.product-clean:hover .product-clean__image img {
+    transform: scale(1.05);
+}
+
+/* =====================================================
+   PRODUCT BADGE
+===================================================== */
+
+.product-clean__badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 10;
+
+    background: var(--black);
+    color: var(--white);
+
+    font-size: 11px;
+    letter-spacing: 0.6px;
+
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+/* =====================================================
+   PRODUCT TITLE
+===================================================== */
+
+.product-clean__title {
+    margin: 20px 0 12px;
+    font-size: 13px;
+    letter-spacing: 0.8px;
+    line-height: 1.6;
+    text-transform: uppercase;
+    font-weight: 400;
+    min-height: 44px;
+}
+
+/* =====================================================
+   PRODUCT PRICES
+===================================================== */
+
+.product-clean__prices {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.product-clean__prices .old {
+    font-size: 12px;
+    color: #a3a3a3;
+    text-decoration: line-through;
+    letter-spacing: 0.5px;
+}
+
+.product-clean__prices .new {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+/* =====================================================
+   PRODUCTS CTA
+===================================================== */
+
+.products-clean__button {
+    margin-top: 80px;
+    text-align: center;
+}
+
+.products-clean__button a {
+    display: inline-block;
+    padding: 16px 48px;
+    border: 1px solid var(--black);
+    background: transparent;
+    color: var(--black);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: background-color 0.45s var(--ease), color 0.45s var(--ease);
+}
+
+.products-clean__button a:hover {
+    background: var(--black);
+    color: var(--white);
+}
+
+/* =====================================================
+   FOOTER — ROSA CLOSING STATEMENT
+   Calm, deep, confident
+===================================================== */
+
+.site-footer {
+    position: relative;
+
+    background: var(--black);
+    color: var(--white);
+
+    padding: 240px 96px 90px;   /* більше драматичного простору */
+}
+
+
+/* =====================================================
+   FOOTER ROSA SIGNATURE
+===================================================== */
+
+.site-footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+
+    width: 88px;
+    height: 1px;
+
+    background-color: var(--rosa);
+    opacity: 0.85;
+
+    transform: translateX(-50%);
+}
+/* =====================================================
+   NEWSLETTER — SILENT INVITATION
+   Editorial / Calm
+===================================================== */
+
+.footer-newsletter {
+    text-align: center;
+    margin-bottom: 110px;
+}
+
+/* Text */
+
+.footer-newsletter__text {
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0.8px;
+
+    margin-bottom: 44px;
+    opacity: 0.9;
+}
+
+/* =====================================================
+   NEWSLETTER FORM
+===================================================== */
+
+.footer-newsletter__form {
+    display: flex;
+    justify-content: center;
+
+    max-width: 520px;
+    margin: 0 auto;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+/* Input */
+
+.footer-newsletter__form input {
+    flex: 1;
+    padding: 16px 6px;
+
+    background: transparent;
+    border: none;
+
+    color: var(--white);
+    font-size: 14px;
+    letter-spacing: 0.6px;
+
+    outline: none;
+}
+
+.footer-newsletter__form input::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+/* =====================================================
+   NEWSLETTER BUTTON
+===================================================== */
+
+.footer-newsletter__form button {
+    padding: 0 14px;
+
+    background: transparent;
+    border: none;
+
+    color: var(--white);
+    font-size: 18px;
+
+    cursor: pointer;
+    transition: opacity 0.4s var(--ease);
+}
+
+.footer-newsletter__form button:hover {
+    opacity: 0.55;
+}
+
+/* =====================================================
+   FOOTER BOTTOM — FINAL HARD RESET
+   One column, centered, all policies in ONE line
+===================================================== */
+
+.footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding-top: 70px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 46px;
+}
+
+/* COPYRIGHT */
+
+.footer-bottom__copyright {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin: 0;
+}
+
+/* POLICY LINKS CONTAINER */
+
+.footer-bottom ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 48px;
+    flex-wrap: nowrap;     /* ❗ не переносити */
+    white-space: nowrap;
+}
+
+/* RESET LI (щоб не ламали layout) */
+
+.footer-bottom ul li {
+    all: unset;
+    display: block;
+}
+
+/* LINKS + BUTTONS */
+
+.footer-bottom ul li a,
+.footer-bottom ul li button {
+    all: unset;
+
+    cursor: pointer;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+
+    color: rgba(255,255,255,0.40);
+    transition: color .4s ease;
+}
+
+/* УБИВАЄМО СТАРІ ПСЕВДО-ЛІНІЇ */
+
+.footer-bottom ul li a::after,
+.footer-bottom ul li button::after {
+    display: none !important;
+}
+
+/* HOVER */
+
+.footer-bottom ul li a:hover,
+.footer-bottom ul li button:hover {
+    color: rgba(255,255,255,0.75);
+}
+
+/* =====================================================
+   HEADER LOGO — EDITORIAL STACK
+   Brand mark, not UI element
+===================================================== */
+
+.header__logo a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+
+    font-family: 'Playfair Display', serif;
+    line-height: 1;
+
+    text-decoration: none;
+    color: var(--black);
+}
+
+/* Logo lines */
+
+.header__logo .logo-line {
+    display: block;
+
+    font-size: 42px;
+    font-weight: 400;
+    letter-spacing: 1.4px;
+}
+
+/* La Mia — single line */
+
+.header__logo .logo-line:first-child {
+    white-space: nowrap;
+}
+
+/* Rosa — second line */
+
+.header__logo .logo-line:last-child {
+    margin-top: 2px;
+}
+/* =====================================================
+   COLLECTION PAGE — LA MIA ROSA
+   Editorial grid / Calm luxury
+===================================================== */
+
+.collection {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 40px;
+
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 60px;
+}
+
+/* =====================================================
+   FILTER — EDITORIAL SIDEBAR
+===================================================== */
+
+.filter {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #1a1a1a;
+}
+
+.filter h4 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 24px;
+    letter-spacing: 0.4px;
+}
+
+.filter-block {
+    border-top: 1px solid #e5e5e5;
+    padding: 22px 0;
+}
+
+.filter-block p {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 12px;
+    letter-spacing: 0.4px;
+}
+
+.filter-block label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: #333333;
+    cursor: pointer;
+}
+
+.filter-block input[type="checkbox"] {
+    accent-color: var(--rosa);
+}
+
+/* Price inputs */
+
+.price-inputs {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.price-inputs input {
+    width: 100%;
+    padding: 10px 12px;
+
+    border: 1px solid #cccccc;
+    font-size: 13px;
+
+    outline: none;
+}
+
+.price-inputs input:focus {
+    border-color: var(--rosa);
+}
+
+/* =====================================================
+   PRODUCTS GRID — EDITORIAL
+===================================================== */
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 70px 50px;
+}
+
+/* =====================================================
+   PRODUCT CARD
+===================================================== */
+
+.product-card {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Image */
+
+.product-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+
+    overflow: hidden;
+    border-radius: 180px 180px 20px 20px;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    transform: scale(1.02);
+    transition: transform 1.8s var(--ease);
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.08);
+}
+
+/* Badge */
+
+.product-card .badge {
+    position: absolute;
+    bottom: 18px;
+    left: 18px;
+
+    transform: none;
+
+    background: var(--black);
+    color: var(--white);
+
+    font-size: 11px;
+    letter-spacing: 0.6px;
+
+    padding: 6px 14px;
+    border-radius: 20px;
+
+    z-index: 10;           /* ГОЛОВНЕ */
+}
+
+/* Title */
+
+.product-card .product-title {
+    margin-top: 18px;
+
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+/* Price */
+
+.product-card .price {
+    margin-top: 6px;
+    font-size: 14px;
+}
+
+.product-card .price .old {
+    text-decoration: line-through;
+    color: #999999;
+    margin-right: 8px;
+}
+
+.product-card .price .new {
+    font-weight: 600;
+    color: var(--black);
+}
+
+ 
+/* =====================================================
+   PRODUCT PAGE — LA MIA ROSA
+   Editorial / Calm product experience
+===================================================== */
+
+.product-page {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 60px 20px;
+
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    color: #111111;
+}
+
+/* =====================================================
+   PRODUCT MAIN GRID
+===================================================== */
+
+.product-main__grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 60px;
+
+    align-items: flex-start;
+}
+
+/* =====================================================
+   PRODUCT GALLERY
+===================================================== */
+
+.product-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.product-gallery img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+
+    transform: scale(1.01);
+    transition: transform 1.8s var(--ease);
+}
+
+.product-gallery img:hover {
+    transform: scale(1.05);
+}
+
+/* =====================================================
+   PRODUCT INFO (STICKY)
+===================================================== */
+
+.product-info {
+    position: sticky;
+    top: 40px;
+}
+
+/* =====================================================
+   PRODUCT TITLE
+===================================================== */
+
+.product-page .product-title {
+    font-size: 34px;
+    font-weight: 500;
+    line-height: 1.2;
+
+    margin-bottom: 16px;
+}
+
+/* =====================================================
+   PRODUCT PRICES
+===================================================== */
+
+.product-prices {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin-bottom: 12px;
+}
+
+.old-price {
+    font-size: 16px;
+    color: #888888;
+    text-decoration: line-through;
+}
+
+.new-price {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+/* Badge */
+
+.product-page .badge {
+    background: var(--black);
+    color: var(--white);
+
+    font-size: 11px;
+    letter-spacing: 0.6px;
+
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+/* =====================================================
+   TAX & SHIPPING NOTE
+===================================================== */
+
+.product-tax {
+    font-size: 13px;
+    color: #666666;
+
+    margin-bottom: 20px;
+}
+
+.product-tax a {
+    color: #111111;
+    text-decoration: underline;
+}
+
+/* =====================================================
+   PRODUCT DESCRIPTION
+===================================================== */
+
+.product-description {
+    font-size: 14px;
+    line-height: 1.6;
+
+    color: #333333;
+    margin-bottom: 28px;
+}
+
+/* =====================================================
+   PRODUCT OPTIONS — QUIET SELECTION
+===================================================== */
+
+.product-option {
+    margin-bottom: 24px;
+}
+
+/* Label */
+
+.option-label {
+    display: block;
+
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.4px;
+
+    margin-bottom: 8px;
+}
+
+/* =====================================================
+   COLOR SELECTOR — SILENT SWATCHES
+===================================================== */
+
+.color-selector {
+    display: flex;
+    gap: 12px;
+}
+
+/* Swatch */
+
+.color-swatch {
+    width: 26px;
+    height: 26px;
+
+    border-radius: 50%;
+    border: 1px solid #cccccc;
+
+    cursor: pointer;
+    background: #000000;
+
+    transition:
+        transform 0.25s var(--ease),
+        border-color 0.25s var(--ease);
+}
+
+.color-swatch[data-color="brown"] {
+    background: #7a4a21;
+}
+
+/* Active state — confident, not loud */
+
+.color-swatch.is-active {
+    border-color: var(--black);
+    transform: scale(1.05);
+}
+
+/* =====================================================
+   QUANTITY — EDITORIAL CONTROL
+===================================================== */
+
+.qty-box {
+    display: inline-flex;
+    align-items: center;
+
+    border: 1px solid #cccccc;
+}
+
+/* Buttons */
+
+.qty-btn {
+    width: 36px;
+    height: 36px;
+
+    background: none;
+    border: none;
+
+    font-size: 18px;
+    line-height: 1;
+
+    cursor: pointer;
+    color: #111111;
+
+    transition: opacity 0.25s var(--ease);
+}
+
+.qty-btn:hover {
+    opacity: 0.6;
+}
+
+/* Value */
+
+.qty-value {
+    width: 40px;
+
+    text-align: center;
+    font-size: 14px;
+}
+
+/* =====================================================
+   PRODUCT CTA BUTTONS — SHOPIFY PLUS STYLE
+===================================================== */
+
+.btn-add {
+    width: 100%;
+    padding: 14px;
+
+    background: transparent;
+    border: 1px solid var(--black);
+
+    font-size: 14px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+
+    cursor: pointer;
+    margin-bottom: 12px;
+
+    transition:
+        background-color 0.4s var(--ease),
+        color 0.4s var(--ease);
+}
+
+.btn-add:hover {
+    background: var(--black);
+    color: var(--white);
+}
+
+/* Primary */
+
+.btn-buy {
+    width: 100%;
+    padding: 14px;
+
+    background: var(--black);
+    color: var(--white);
+
+    border: none;
+
+    font-size: 14px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition: opacity 0.35s var(--ease);
+}
+
+.btn-buy:hover {
+    opacity: 0.85;
+}
+
+/* =====================================================
+   STOCK INFO — QUIET CONFIDENCE
+===================================================== */
+
+.stock-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 14px;
+    margin: 16px 0;
+
+    color: #333333;
+}
+
+.stock-info .dot {
+    width: 10px;
+    height: 10px;
+
+    background: #f2994a; /* warm, calm */
+    border-radius: 50%;
+}
+
+/* =====================================================
+   PRODUCT ACCORDIONS — EDITORIAL DETAILS
+===================================================== */
+
+.product-accordions {
+    margin-top: 30px;
+    border-top: 1px solid #e5e5e5;
+}
+
+.accordion {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+/* Summary */
+
+.accordion summary {
+    padding: 16px 0;
+
+    font-size: 14px;
+    font-weight: 400;
+
+    cursor: pointer;
+    list-style: none;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Icon */
+
+.accordion summary::after {
+    content: "+";
+    font-size: 16px;
+    line-height: 1;
+}
+
+.accordion[open] summary::after {
+    content: "–";
+}
+
+/* Content */
+
+.accordion-content {
+    padding-bottom: 20px;
+
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333333;
+}
+
+.accordion-content ul {
+    padding-left: 18px;
+}
+
+/* =====================================================
+   RELATED PRODUCTS — EDITORIAL CONTINUATION
+===================================================== */
+
+.related-products {
+    margin-top: 80px;
+}
+
+.related-title {
+    font-size: 26px;
+    font-weight: 500;
+
+    margin-bottom: 32px;
+}
+
+/* Grid */
+
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.related-grid img {
+    width: 100%;
+    display: block;
+
+    transform: scale(1.01);
+    transition: transform 1.6s var(--ease);
+}
+
+.related-grid img:hover {
+    transform: scale(1.06);
+}
+
+/* CTA */
+
+.related-button {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.btn-view-all {
+    display: inline-block;
+    padding: 14px 40px;
+
+    border: 1px solid var(--black);
+    background: transparent;
+
+    color: var(--black);
+    font-size: 12px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    text-decoration: none;
+
+    transition:
+        background-color 0.4s var(--ease),
+        color 0.4s var(--ease);
+}
+
+.btn-view-all:hover {
+    background: var(--black);
+    color: var(--white);
+}
+
+ 
+/* =====================================================
+   COMMUNICATION PAGE — LA MIA ROSA
+   Editorial / Calm
+===================================================== */
+
+.communication-page {
+    padding: 80px 0 120px;
+}
+
+/* Container */
+
+.communication-page .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Title */
+
+.communication-page .page-title {
+    font-size: 64px;
+    font-weight: 400;
+
+    margin-bottom: 80px;
+}
+
+/* Form */
+
+.communication-page .contact-form {
+    max-width: 900px;
+}
+
+/* Rows */
+
+.communication-page .form-row {
+    display: flex;
+    gap: 30px;
+
+    margin-bottom: 30px;
+}
+
+.communication-page .form-row:last-of-type {
+    margin-bottom: 50px;
+}
+
+/* Inputs */
+
+.communication-page .form-input,
+.communication-page .form-textarea {
+    width: 100%;
+    padding: 20px 18px;
+
+    font-size: 16px;
+    font-weight: 400;
+
+    border: 1px solid #9c9c9c;
+    background-color: var(--white);
+
+    outline: none;
+}
+
+.communication-page .form-input::placeholder,
+.communication-page .form-textarea::placeholder {
+    color: #222222;
+}
+
+.communication-page .form-textarea {
+    min-height: 180px;
+    resize: vertical;
+}
+
+/* Button */
+
+.communication-page .form-button {
+    background-color: var(--black);
+    color: var(--white);
+
+    padding: 16px 40px;
+
+    font-size: 14px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+
+    border: none;
+    cursor: pointer;
+
+    transition: opacity 0.3s var(--ease);
+}
+
+.communication-page .form-button:hover {
+    opacity: 0.85;
+}
+
+ 
+/* ================================
+   ABOUT PAGE — LA MIA ROSA
+   Editorial / Brand Manifesto
+================================ */
+
+.about-page {
+    padding: 120px 0 160px;
+}
+
+/* Container */
+
+.about-page .about-container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 20px;
+
+    text-align: center;
+}
+
+/* Title */
+
+.about-page .page-title {
+    font-size: 48px;
+    font-weight: 400;
+    letter-spacing: 0.8px;
+
+    margin-bottom: 60px;
+}
+
+/* Content */
+
+.about-page .about-content p {
+    font-size: 17px;
+    line-height: 1.9;
+
+    color: #555555;
+    margin: 0 auto 32px;
+}
+
+/* Emphasis */
+
+.about-page .about-content p strong {
+    color: #111111;
+    font-weight: 500;
+}
+
+/* Signature */
+
+.about-page .about-signature {
+    margin-top: 56px;
+
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+
+    color: #111111;
+}
+
+ 
+ /* =====================================================
+   GLOBAL BASE — LA MIA ROSA ATMOSPHERE
+   Air • Silence • Editorial Luxury
+===================================================== */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 300;
+
+    color: var(--black);
+    background-color: var(--white);
+
+    letter-spacing: 0.2px;
+    line-height: 1.65;
+
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+/* Selection — soft rosa touch */
+
+::selection {
+    background: var(--rosa-muted);
+}
+
+/* Links default calm */
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Images breathe */
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* Remove UI feel */
+
+button,
+input,
+textarea {
+    font-family: inherit;
+}
+
+/* =========================================================
+   TYPOGRAPHY — EDITORIAL LUXURY SYSTEM
+========================================================= */
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  color: var(--black);
+  margin: 0;
+}
+
+h1 {
+  font-size: 42px;      /* було 28 — тепер це заголовок, не UI текст */
+  line-height: 1.25;
+  margin-bottom: 28px;
+}
+
+h2 {
+  font-size: 28px;
+  line-height: 1.35;
+  margin-bottom: 18px;
+}
+
+h3 {
+  font-size: 18px;
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 15px;       /* було 14 */
+  line-height: 1.8;      /* головний luxury фактор */
+  color: #555555;        /* тепліший ніж var(--gray) */
+  margin: 0 0 18px;
+}
+
+
+/* =========================================================
+   HEADER (SHOPIFY STYLE)
+========================================================= */
+
+.account-header {
+  height: 64px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 32px;
+}
+
+.account-header-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.account-logo {
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--black);
+}
+
+.account-link {
+  font-size: 14px;
+  text-decoration: none;
+  color: var(--gray);
+}
+
+.account-link:hover {
+  color: var(--black);
+}
+
+.account-header-right {
+  position: relative;
+}
+
+/* =========================================================
+   USER AVATAR (SHOPIFY-LIKE)
+========================================================= */
+
+.account-user-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.account-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #eaeaea;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--black);
+}
+
+.account-avatar.small {
+  width: 36px;
+  height: 36px;
+  font-size: 14px;
+}
+
+.account-avatar.is-empty {
+  background: #f3f3f3;
+}
+
+.account-avatar.is-empty::before {
+  content: "👤";
+  font-size: 16px;
+}
+
+/* =========================================================
+   ACCOUNT DROPDOWN — SHOPIFY 1:1
+========================================================= */
+
+.account-dropdown {
+  position: absolute;
+  top: 52px;
+  right: 0;
+  width: 260px;
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0,0,0,.14);
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: all .25s var(--ease);
+  z-index: 100;
+}
+
+.account-dropdown.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* ===== USER INFO ===== */
+
+.account-dropdown-user {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.account-dropdown-userinfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.account-dropdown-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.account-dropdown-email {
+  font-size: 13px;
+  color: var(--gray);
+}
+
+/* ===== LINKS ===== */
+
+.account-dropdown-links {
+  display: flex;
+  flex-direction: column;
+}
+
+.account-dropdown-link,
+.account-dropdown-logout {
+  display: block;
+  width: 100%;
+  position: relative;
+  padding: 14px 20px;
+  font-size: 14px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  color: var(--black);
+  text-decoration: none;
+}
+
+/* underline hover */
+
+.account-dropdown-link::after,
+.account-dropdown-logout::after {
+  content: "";
+  position: absolute;
+  left: 20px;
+  bottom: 8px;
+  width: 0;
+  height: 1px;
+  background: var(--black);
+  transition: width .25s var(--ease);
+}
+
+.account-dropdown-link:hover::after,
+.account-dropdown-logout:hover::after {
+  width: calc(100% - 40px);
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.account-page {
+  max-width: 1120px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+
+.account-title {
+  margin-bottom: 32px;
+}
+
+/* =========================================================
+   CARD / BOX
+========================================================= */
+
+.account-box {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 40px;
+  margin-bottom: 40px;
+}
+
+.account-box-title {
+  margin-bottom: 24px;
+}
+
+/* =========================================================
+   ORDERS
+========================================================= */
+
+.orders-empty {
+  text-align: center;
+  padding: 48px 0;
+}
+
+/* =========================================================
+   PROFILE VIEW (CLEAN SHOPIFY GRID)
+========================================================= */
+
+.profile-section {
+  margin-bottom: 32px;
+}
+
+.profile-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.profile-label {
+  font-size: 13px;
+  color: var(--gray);
+}
+
+.profile-value {
+  font-size: 14px;
+  color: var(--black);
+}
+
+.profile-subtitle {
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  border: none;
+  margin: 32px 0;
+}
+
+/* =========================================================
+   ADDRESSES (SHOPIFY CARD STYLE)
+========================================================= */
+
+.address-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 48px 16px 16px;
+  margin-bottom: 12px;
+  position: relative;
+  background: var(--white);
+}
+
+.address-card strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.address-line {
+  font-size: 13px;
+  color: var(--gray);
+}
+
+.address-edit-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--black);
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn-primary {
+  background: var(--black);
+  color: var(--white);
+  border: 1px solid var(--black);
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: var(--white);
+  color: var(--black);
+  border: 1px solid #c9cccf;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal {
+  width: 100%;
+  max-width: 560px;
+  background: var(--white);
+  border-radius: 12px;
+  padding: 32px;
+  position: relative;
+}
+
+.modal.scroll {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* field labels (Shopify style) */
+
+.field {
+  display: block;
+  margin-bottom: 14px;
+}
+
+.field span {
+  display: block;
+  font-size: 12px;
+  color: var(--gray);
+  margin-bottom: 6px;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #c9cccf;
+  font-size: 14px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.account-footer {
+  max-width: 1120px;
+  margin: 40px auto;
+  padding: 0 24px;
+  font-size: 13px;
+}
+
+.account-footer a {
+  margin-right: 16px;
+  color: var(--gray);
+  text-decoration: none;
+}
+
+/* =====================================================
+   CART PAGE — SHOPIFY STYLE
+===================================================== */
+
+.cart-page {
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 0 24px;
+}
+
+.cart-title {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.cart-keep {
+  font-size: 14px;
+  text-decoration: underline;
+  display: inline-block;
+  margin-bottom: 40px;
+}
+
+.cart-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 60px;
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 100px 1fr 140px 120px;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.cart-item img {
+  width: 100%;
+  border-radius: 6px;
+}
+
+.cart-item-title {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.cart-item-price {
+  font-size: 14px;
+  color: var(--gray);
+}
+
+.cart-qty {
+  display: flex;
+  border: 1px solid var(--border);
+}
+
+.cart-qty button {
+  width: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.cart-qty span {
+  width: 40px;
+  text-align: center;
+  line-height: 36px;
+}
+
+.cart-item-total {
+  font-size: 14px;
+  text-align: right;
+}
+
+.cart-summary {
+  border: 1px solid var(--border);
+  padding: 24px;
+}
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.cart-note {
+  font-size: 13px;
+  color: var(--gray);
+  margin-bottom: 24px;
+}
+/* =====================================================
+   CART PAGE — SHOPIFY STYLE (FINAL)
+===================================================== */
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 100px 1fr 140px 120px;
+  align-items: center;
+  gap: 24px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.cart-item img {
+  width: 100%;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+/* ---------- PRODUCT INFO ---------- */
+
+.cart-item-title {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.cart-item-price {
+  font-size: 13px;
+  color: var(--gray);
+}
+
+/* ---------- QTY (SHOPIFY LOOK) ---------- */
+
+.cart-qty {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  height: 40px;
+}
+
+.cart-qty button {
+  width: 36px;
+  height: 100%;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.cart-qty span {
+  width: 40px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* ---------- REMOVE ---------- */
+
+.cart-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+}
+
+.cart-remove:hover {
+  opacity: 1;
+}
+
+/* ---------- ITEM TOTAL ---------- */
+
+.cart-item-total {
+  text-align: right;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+/* ---------- SUMMARY ---------- */
+
+.cart-summary {
+  border: 1px solid var(--border);
+  padding: 24px;
+}
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+/* =====================================================
+   CHECKOUT — SHOPIFY STYLE (STEP 4B)
+===================================================== */
+
+.checkout {
+  background: #fff;
+  padding: 40px 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.checkout-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 60px;
+  padding: 0 24px;
+}
+
+/* ---------- LEFT ---------- */
+
+.checkout-main {
+  max-width: 560px;
+}
+
+.checkout-section {
+  margin-bottom: 40px;
+}
+
+.checkout-section-title {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+/* ---------- FIELDS ---------- */
+
+.checkout-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.checkout-field label {
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.checkout-field input,
+.checkout-field select {
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.checkout-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* ---------- RADIO CARDS ---------- */
+
+.checkout-radio {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #d9d9d9;
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.checkout-radio input {
+  margin-right: 8px;
+}
+
+.checkout-radio.is-selected {
+  border-color: #1773ff;
+  background: #f3f7ff;
+}
+
+.checkout-note {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+/* ---------- PAY BUTTON ---------- */
+
+.checkout-pay-btn {
+  width: 100%;
+  height: 52px;
+  background: #1773ff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* ---------- RIGHT SUMMARY ---------- */
+
+.checkout-summary {
+  position: sticky;
+  top: 40px;
+}
+
+.checkout-summary-box {
+  background: #fafafa;
+  padding: 24px;
+  border-radius: 8px;
+  border: 1px solid #e5e5e5;
+}
+
+.checkout-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+.checkout-summary-total {
+  font-size: 16px;
+  margin-top: 16px;
+}
+
+/* ---------- ITEMS ---------- */
+
+.checkout-summary-items {
+  margin-bottom: 16px;
+}
+
+.checkout-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+/* =====================================================
+   SUCCESS PAGE
+===================================================== */
+
+.success {
+  padding: 60px 16px;
+  background: #fafafa;
+}
+
+.success-container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.success-title {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.success-subtitle {
+  color: #555;
+  margin-bottom: 32px;
+}
+
+.success-box {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.success-box-title {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.success-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.success-item:last-child {
+  border-bottom: none;
+}
+
+.success-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.success-item img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.success-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  margin-top: 16px;
+}
+
+.success-btn {
+  display: inline-block;
+  padding: 14px 24px;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+}
+/* ================= NEWSLETTER MESSAGE ================= */
+
+.newsletter-message {
+  margin-top: 12px;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+
+.newsletter-message.show {
+  opacity: 1;
+}
+/* ================= FOOTER POLICY BUTTONS ================= */
+
+.footer-links button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.footer-links button:hover {
+  text-decoration: underline;
+}
+/* ================= POLICY MODAL ================= */
+
+.policy-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 9999;
+}
+
+.policy-modal.active {
+  display: flex;
+}
+
+.policy-modal__content {
+  background: #111;
+  color: #fff;
+  max-width: 700px;
+  width: 100%;
+  padding: 40px;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.policy-modal__close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.policy-modal__title {
+  margin-bottom: 20px;
+}
+
+.policy-modal__body p {
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+/* =========================================
+   PRODUCT GALLERY (SHOPIFY STYLE FIXED)
+========================================= */
+
+.product-gallery {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-main-image {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 14px;
+    object-fit: cover;
+}
+
+.product-thumbs {
+    display: flex;
+    gap: 10px;
+}
+
+.product-thumb {
+    width: 90px !important;     /* 🔥 фіксуємо */
+    height: 110px !important;
+    object-fit: cover;
+    cursor: pointer;
+    opacity: 0.6;
+    border-radius: 6px;
+    transition: 0.2s;
+    flex-shrink: 0;
+}
+
+.product-thumb:hover {
+    opacity: 1;
+}
+
+.product-thumb.is-active {
+    opacity: 1;
+    outline: 2px solid #111;
+}
+section {
+    margin-bottom: 60px;   /* створює luxury ритм */
+}
+a,
+button,
+.product-clean__image img,
+.category-card img {
+    transition: 
+        transform var(--luxury-slow) var(--luxury-ease),
+        opacity var(--luxury-medium) var(--luxury-ease),
+        color var(--luxury-medium) var(--luxury-ease),
+        background-color var(--luxury-medium) var(--luxury-ease);
+}
+ 
+/* =========================================================
+   LUXURY SCROLL REVEAL — SAFE VERSION
+========================================================= */
+
+.reveal {
+    opacity: 0;
+    transition: opacity 1.2s var(--luxury-ease);
+}
+
+.reveal.is-visible {
+    opacity: 1;
+}
+
+/* ТІЛЬКИ для елементів без абсолютного позиціонування */
+.reveal-up {
+    transform: translateY(40px);
+    transition:
+        transform 1.2s var(--luxury-ease),
+        opacity 1.2s var(--luxury-ease);
+}
+
+.reveal-up.is-visible {
+    transform: translateY(0);
+}
+/* =====================================================
+   PRODUCT SIZE SELECTOR — FIXED LAYOUT SYSTEM
+===================================================== */
+
+.size-selector {
+    display: flex;
+    gap: 14px;
+    margin-top: 12px;
+    align-items: flex-start;
+    min-height: 70px; /* резерв під stock numbers */
+}
+
+/* base button */
+
+.size-btn {
+    width: 48px;
+    height: 48px;
+
+    background: transparent;
+    border: 1px solid #dcdcdc;
+
+    font-size: 13px;
+    letter-spacing: 0.5px;
+
+    cursor: pointer;
+    transition: all 0.35s var(--ease);
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* hover */
+
+.size-btn:hover:not(.is-disabled) {
+    border-color: var(--black);
+}
+
+/* active */
+
+.size-btn.is-active {
+    background: var(--black);
+    color: var(--white);
+    border-color: var(--black);
+}
+
+/* disabled */
+
+.size-btn.is-disabled {
+    opacity: 0.25;   /* було занадто темно */
+    cursor: not-allowed;
+}
+
+/* =====================================================
+   SIZE SELECTOR — CLEAN (NO NUMBERS UNDER BUTTONS)
+===================================================== */
+
+.size-selector {
+  display: flex;
+  gap: 14px;
+  margin-top: 12px;
+  align-items: center;
+}
+
+/* base button */
+
+.size-btn {
+  width: 48px;
+  height: 48px;
+
+  background: transparent;
+  border: 1px solid #dcdcdc;
+
+  font-size: 13px;
+  letter-spacing: 0.5px;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* hover */
+
+.size-btn:hover:not(.is-disabled) {
+  border-color: #111;
+}
+
+/* active */
+
+.size-btn.is-active {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+/* sold out */
+
+.size-btn.is-disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+  text-decoration: line-through;
+}
+
+ /* =====================================================
+   NAV DROPDOWN TRIGGER — SHOPIFY STYLE BUTTON
+===================================================== */
+
+/* ================= NAV LINKS (HOME, COMMUNICATION, ABOUT...) ================= */
+
+.header__nav a {
+    position: relative;
+
+    font-size: 11.5px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+
+    color: var(--black);
+    text-decoration: none;
+
+    padding-bottom: 6px;
+    opacity: 0.9;
+
+    transition: opacity 0.4s var(--ease);
+}
+
+.header__nav a:hover {
+    opacity: 1;
+}
+
+/* underline */
+.header__nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 0;
+    height: 1px;
+
+    background-color: var(--rosa);
+    transition: width 0.5s var(--ease);
+}
+
+.header__nav a:hover::after,
+.nav-item.active a::after {
+    width: 100%;
+}
+
+
+/* ================= DROPDOWN BUTTONS (OUTERWEAR / UNDERWEAR / WAISTCOAT) ================= */
+
+.nav-trigger {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    background: none;
+    border: none;
+    padding: 0 0 6px;
+
+    font-size: 11.5px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--black);
+
+    cursor: pointer;
+    opacity: 0.9;
+
+    line-height: 1;            /* ← ФІКС */
+    vertical-align: middle;    /* ← ФІКС */
+
+    transition: opacity 0.4s var(--ease);
+}
+
+
+/* underline — ТЕПЕР ІДЕНТИЧНИЙ ЯК У HOME */
+.nav-trigger::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 0;
+    height: 1px;
+
+    background-color: var(--rosa);
+    transition: width 0.5s var(--ease);
+}
+
+.nav-trigger:hover::after,
+.nav-item.open .nav-trigger::after {
+    width: 100%;
+}
+
+
+/* ================= CARET ARROW ================= */
+
+.nav-caret {
+    width: 6px;
+    height: 6px;
+    border-right: 1.5px solid var(--black);
+    border-bottom: 1.5px solid var(--black);
+    transform: rotate(45deg);
+    margin-top: -2px;
+
+    transition: transform 0.3s var(--ease);
+}
+
+/* повертається назад при закритті */
+.nav-item.open .nav-caret {
+    transform: rotate(225deg);
+}
+.stock-message {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #b45309;
+  letter-spacing: .02em;
+}
+/* =====================================================
+   SIZE SELECTOR — FINAL CLEAN SYSTEM
+   No stock numbers under buttons
+   Clean layout, correct states
+===================================================== */
+
+.size-selector {
+  display: flex;
+  gap: 14px;
+  margin-top: 12px;
+  align-items: center;
+  min-height: auto; /* ❌ прибрали резерв під цифри */
+}
+
+/* base button */
+
+.size-btn {
+  width: 48px;
+  height: 48px;
+
+  background: transparent;
+  border: 1px solid #dcdcdc;
+
+  font-size: 13px;
+  letter-spacing: 0.5px;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* hover */
+
+.size-btn:hover:not(.is-disabled) {
+  border-color: #111;
+}
+
+/* active */
+
+.size-btn.is-active {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+/* sold out */
+
+.size-btn.is-disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+  text-decoration: line-through;
+}
+.order-items {
+  margin-top: 12px;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.order-item-img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.order-item-info {
+  flex: 1;
+}
+
+.order-item-title {
+  font-weight: 500;
+}
+
+.order-item-variant,
+.order-item-qty {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.order-item-price {
+  font-weight: 500;
+}
+/* ===============================
+   ACTIVE PARENT CATEGORY
+================================ */
+
+.nav-item.active > .nav-trigger::after {
+    width: 100% !important;
+}
+
+/* ACTIVE PARENT CATEGORY (OUTERWEAR) */
+.nav-item.active-parent > .nav-trigger::after {
+  width: 100% !important;
+}
+
+/* ACTIVE SUBCATEGORY (KNITWEAR / VEST / BLOUSE) */
+.dropdown a.active-sub::after {
+  width: 100% !important;
+}
+/* ===============================
+   POLICY MODAL — FINAL OVERRIDE
+   (для старої чорної модалки)
+=============================== */
+
+.policy-modal {
+  background: rgba(0,0,0,.45) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+.policy-modal__content {
+  background: #ffffff !important;
+  color: #6a6a6a !important;
+  border-radius: 14px !important;
+  padding: 48px !important;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.15) !important;
+}
+
+.policy-modal__content h1,
+.policy-modal__content h2,
+.policy-modal__content h3 {
+  color: #111 !important;
+  font-family: 'Playfair Display', serif !important;
+}
+
+.policy-modal__close {
+  color: #111 !important;
+}
+/* =========================================
+   COLLECTION PRODUCT CARD — TITLE FIX
+   (НЕ впливає на product page)
+========================================= */
+
+.related-products .product-title,
+.related-grid .product-title,
+#products .product-title,
+.product-card .product-title {
+  font-size: 18px !important;
+  line-height: 1.35 !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.2px;
+  margin: 10px 0 6px;
+  color: #2d2d2d;
+}
+
+/* якщо назва в 2 рядки — виглядає як у Zara */
+.product-card .product-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ціна трохи менша, щоб не кричала */
+.product-card .price {
+  font-size: 15px !important;
+}
+/* ================================
+   MOBILE BURGER MENU
+================================ */
+
+/* Burger button (hidden on desktop) */
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+.burger span {
+  width: 22px;
+  height: 2px;
+  background: #000;
+  display: block;
+  transition: 0.3s;
+}
+
+/* Mobile layout */
+@media (max-width: 768px) {
+
+  /* Show burger */
+  .burger {
+    display: flex;
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  /* Center logo */
+  .header__logo {
+    margin: 0 auto;
+  }
+
+  /* Hide desktop nav */
+  .header__nav {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 80%;
+    height: 100vh;
+    background: #fff;
+    transition: 0.4s;
+    z-index: 1000;
+    padding-top: 80px;
+  }
+
+  /* Open state */
+  .header__nav.active {
+    left: 0;
+  }
+
+  /* Vertical menu */
+  .nav-list {
+    flex-direction: column;
+    gap: 20px;
+    padding-left: 25px;
+  }
+
+  /* Icons smaller */
+  .header__icons {
+    gap: 12px;
+  }
+}
+ /* ================================
+   MOBILE NAV DROPDOWN FIX
+================================ */
+@media (max-width: 768px) {
+
+  /* Забираємо десктопну абсолютну позицію */
+  .dropdown {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    display: none;
+    box-shadow: none;
+    padding-left: 15px;
+    margin-top: 8px;
+  }
+
+  /* Кнопки категорій */
+  .nav-trigger {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    font: inherit;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  /* Коли відкрито */
+  .nav-item.open > .dropdown {
+    display: block;
+  }
+}
+/* =====================================================
+   MOBILE HEADER SYSTEM — HARD RESET
+   Overrides ALL previous header styles
+===================================================== */
+
+@media (max-width: 768px) {
+
+  /* ---------- ANNOUNCEMENT ---------- */
+
+  .announcement-bar {
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .announcement-bar__text {
+    font-size: 9px;
+    letter-spacing: .8px;
+  }
+
+
+  /* ---------- HEADER CONTAINER ---------- */
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    height: 60px;
+
+    display: grid;
+    grid-template-columns: 48px 1fr 72px;
+    align-items: center;
+
+    padding: 0 8px;
+    z-index: 1000;
+  }
+
+
+  /* ---------- BURGER (LEFT CELL) ---------- */
+
+  .burger {
+    display: flex;
+    position: relative;
+    left: 0;
+    top: 0;
+    transform: none;
+    justify-self: start;
+  }
+
+  .burger span {
+    width: 18px;
+    height: 2px;
+  }
+
+
+  /* ---------- LOGO (CENTER CELL) ---------- */
+
+  .header__logo {
+    position: relative;
+    transform: none;
+    left: auto;
+    text-align: center;
+    justify-self: center;
+  }
+
+  .header__logo .logo-line {
+    font-size: 18px;
+    line-height: 1;
+  }
+
+
+  /* ---------- ICONS (RIGHT CELL) ---------- */
+
+  .header__icons {
+    position: relative;
+    right: auto;
+    justify-self: end;
+    gap: 10px;
+  }
+
+  .header__icons svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .cart-count {
+    font-size: 8px;
+    top: -4px;
+    right: -5px;
+  }
+
+
+  /* ---------- NAV OFF ---------- */
+
+  .header__nav {
+    display: none !important;
+  }
+}

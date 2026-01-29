@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product – La Mia Rosa</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="product">
+
+
+<!-- =====================================================
+     BLOCK 1: ANNOUNCEMENT BAR
+===================================================== -->
+<div class="announcement-bar">
+    <span class="announcement-bar__text is-active">
+        Free shipping on orders of ₺2500 and above.
+    </span>
+    <span class="announcement-bar__text">
+        Return & Exchange Guarantee
+    </span>
+    <span class="announcement-bar__text">
+        Launch Special: Up to 40% Discount
+    </span>
+</div>
+
+<!-- =====================================================
+     HEADER (SHOPIFY STYLE NAV TRIGGERS)
+===================================================== -->
+<header class="site-header" id="site-header">
+
+  <!-- LOGO -->
+  <div class="header__logo">
+    <a href="index.html">
+      <span class="logo-line">La Mia</span>
+      <span class="logo-line">Rosa</span>
+    </a>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav class="header__nav">
+    <ul class="nav-list">
+
+      <li class="nav-item active">
+        <a href="index.html">Home</a>
+      </li>
+
+      <!-- DROPDOWN ITEM -->
+      <li class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button">
+          Outerwear
+          <span class="nav-caret"></span>
+        </button>
+        <ul class="dropdown">
+          <li><a href="collection.html?collection=knitwear">Knitwear</a></li>
+          <li><a href="collection.html?collection=blouse">Blouse</a></li>
+        </ul>
+      </li>
+
+      <!-- DROPDOWN ITEM -->
+      <li class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button">
+          Underwear
+          <span class="nav-caret"></span>
+        </button>
+        <ul class="dropdown">
+          <li><a href="collection.html?collection=jean">Jean</a></li>
+          <li><a href="collection.html?collection=skirt">Skirt</a></li>
+        </ul>
+      </li>
+
+      <!-- DROPDOWN ITEM -->
+      <li class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button">
+          Outerwear
+          <span class="nav-caret"></span>
+        </button>
+        <ul class="dropdown">
+          <li><a href="collection.html?collection=vest">Waistcoat</a></li>
+        </ul>
+      </li>
+
+      <li class="nav-item">
+        <a href="communication.html">Communication</a>
+      </li>
+
+      <li class="nav-item">
+        <a href="about.html">About Us</a>
+      </li>
+
+    </ul>
+  </nav>
+
+  <!-- ICONS -->
+  <div class="header__icons">
+
+    <!-- SEARCH BUTTON -->
+    <button id="openSearch" class="icon-btn" type="button" aria-label="Search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+
+    <!-- ACCOUNT -->
+    <button id="openAuth" class="icon-btn user-link" type="button" aria-label="Account">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.5">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </button>
+
+    <!-- CART -->
+    <a href="cart.html" class="icon-btn icon-cart" aria-label="Cart">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.5">
+        <circle cx="9" cy="21" r="1"/>
+        <circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.6 13h10.4l2-8H6"/>
+      </svg>
+      <span class="cart-count">1</span>
+    </a>
+
+  </div>
+</header>
+
+<!-- =====================================================
+     SEARCH OVERLAY (REQUIRED FOR JS)
+===================================================== -->
+<div class="search-overlay" id="searchOverlay">
+  <button class="search-close" id="closeSearch">✕</button>
+
+  <div class="search-box">
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search products..."
+      autocomplete="off"
+    />
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<!-- =====================================================
+     AUTH OVERLAY — EMAIL LOGIN (SHOPIFY STYLE)
+===================================================== -->
+<div class="auth-overlay" id="authOverlay">
+
+    <button class="auth-close" id="closeAuth">✕</button>
+
+    <div class="auth-box">
+
+        <!-- ===== HEADER ===== -->
+        <div class="auth-section auth-login">
+            <h2 class="auth-title">Mağazam</h2>
+            <h3 class="auth-heading">Log in</h3>
+            <p class="auth-subtitle">
+                Log in or create an account with your email.
+            </p>
+        </div>
+
+        <div class="auth-divider">
+            <span>or</span>
+        </div>
+
+        <!-- ===== EMAIL INPUT ===== -->
+        <div class="auth-section auth-register" id="authRegister">
+            <h3 class="auth-heading">Continue with email</h3>
+
+            <input
+                type="email"
+                id="authEmail"
+                class="auth-input"
+                placeholder="Email"
+                autocomplete="email"
+            >
+
+            <button
+                class="auth-continue"
+                id="authSubmit"
+                type="button"
+            >
+                Continue
+            </button>
+
+            <p class="auth-message" id="authMessage"></p>
+        </div>
+
+        <!-- ===== EMAIL CODE ===== -->
+        <div
+            class="auth-section auth-code"
+            id="authCode"
+            style="display:none;"
+        >
+            <h3 class="auth-heading">Enter the code</h3>
+            <p class="auth-subtitle">
+                We sent a 6-digit code to your email.
+            </p>
+
+            <input
+                type="text"
+                id="emailCodeInput"
+                class="auth-input"
+                placeholder="6-digit code"
+                maxlength="6"
+                inputmode="numeric"
+            >
+
+            <button
+                class="auth-continue"
+                id="emailCodeSubmit"
+                type="button"
+            >
+                Verify
+            </button>
+
+            <p class="auth-message" id="emailCodeMessage"></p>
+        </div>
+
+        <!-- ===== ACCOUNT (LOGGED IN) ===== -->
+        <div
+            class="auth-section auth-account"
+            id="authAccount"
+            style="display:none;"
+        >
+            <h3 class="auth-heading">My account</h3>
+
+            <p class="auth-subtitle">
+                You are logged in as:
+            </p>
+
+            <p class="auth-account-email" id="accountEmail"></p>
+
+            <button
+                class="auth-continue auth-logout"
+                id="logoutBtn"
+                type="button"
+            >
+                Log out
+            </button>
+        </div>
+
+        <!-- ===== LINKS ===== -->
+        <div class="auth-links">
+            <a href="#">Privacy policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+
+    </div>
+</div>
+
+<!-- ================= PRODUCT PAGE ================= -->
+<main class="product-page">
+
+    <!-- ================= PRODUCT MAIN ================= -->
+    <section class="product-main">
+
+        <div class="product-main__grid">
+
+            <!-- ===== PRODUCT GALLERY ===== -->
+            <div class="product-gallery" id="productGallery"></div>
+
+            <!-- ===== PRODUCT INFO ===== -->
+            <div class="product-info">
+
+                <h1 class="product-title" id="productTitle"></h1>
+
+                <div class="product-prices">
+                    <span class="old-price" id="productOldPrice"></span>
+                    <span class="new-price" id="productNewPrice"></span>
+                    <span class="badge" id="productBadge">Discount</span>
+                </div>
+
+                <p class="product-tax">
+                    Taxes included.
+                    <a href="#" id="shippingCostsBtn">Shipping costs</a> are calculated on the payment page.
+                </p>
+
+                <div class="product-description" id="productDescription"></div>
+
+                <!-- COLOR -->
+                <div class="product-option" id="colorOption" style="display:none;">
+                    <span class="option-label">Color</span>
+                    <div class="color-selector">
+                        <button class="color-swatch is-active" data-color="black"></button>
+                        <button class="color-swatch" data-color="brown"></button>
+                    </div>
+                </div>
+
+                <!-- SIZE (JS BUILDS THIS) -->
+                <div class="product-option" id="sizeOption" style="display:none;">
+                    <span class="option-label">Size</span>
+                    <div class="size-selector" id="sizeSelector"></div>
+                </div>
+
+                <!-- QUANTITY -->
+                <div class="product-option">
+                    <span class="option-label">Piece</span>
+                    <div class="qty-box">
+                        <button class="qty-btn qty-minus">−</button>
+                        <span class="qty-value" id="qtyValue">1</span>
+                        <button class="qty-btn qty-plus">+</button>
+                    </div>
+                </div>
+
+                <!-- ACTIONS -->
+                <button class="btn-add">Add to cart</button>
+                <button class="btn-buy">Buy now</button>
+
+                <!-- 🔥 STOCK INFO — JS CONTROLS THIS -->
+                <p class="stock-info" id="stockInfo" style="display:none;"></p>
+
+
+                <!-- ACCORDIONS -->
+                <div class="product-accordions">
+
+                    <details class="accordion">
+                        <summary>RETURNS & EXCHANGES</summary>
+                        <div class="accordion-content">
+                            <p><strong>Return Period:</strong> 14 days</p>
+                        </div>
+                    </details>
+
+                    <details class="accordion">
+                        <summary>SHIPPING & DELIVERY</summary>
+                        <div class="accordion-content">
+                            <p>Delivery in 1–3 business days.</p>
+                        </div>
+                    </details>
+
+                    <details class="accordion">
+                        <summary>CONTACT US</summary>
+                        <div class="accordion-content">
+                            <p>Email: info.lamiarosa@gmail.com</p>
+                        </div>
+                    </details>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- RELATED -->
+    <section class="related-products">
+        <h2 class="related-title">You might like these products</h2>
+        <div class="related-grid" id="relatedProducts"></div>
+        <div class="related-button">
+            <a href="collection.html?collection=all" class="btn-view-all">View all</a>
+        </div>
+    </section>
+
+</main>
+
+
+<!-- =====================================================
+     BLOCK: FOOTER
+===================================================== -->
+<footer class="site-footer">
+
+    <!-- NEWSLETTER -->
+    <div class="footer-newsletter">
+        <p class="footer-newsletter__text">
+            Subscribe to our newsletter! Be the first to know about all our discounts and offers!
+        </p>
+
+        <form class="footer-newsletter__form" id="newsletterForm">
+            <input 
+                type="email" 
+                id="newsletterEmail"
+                placeholder="Email"
+                required
+            >
+            <button type="submit">→</button>
+        </form>
+
+        <p class="newsletter-message" id="newsletterMessage"></p>
+    </div>
+
+    <!-- FOOTER BOTTOM -->
+    <div class="footer-bottom">
+        <p class="footer-bottom__copyright">
+            © 2026, La Mia Rosa
+        </p>
+
+        <ul class="footer-links">
+            <li><button type="button" onclick="openPolicy('privacy')">Privacy policy</button></li>
+            <li><button type="button" onclick="openPolicy('refund')">Money-back policy</button></li>
+            <li><button type="button" onclick="openPolicy('terms')">Terms of Service</button></li>
+            <li><button type="button" onclick="openPolicy('shipping')">Shipping policy</button></li>
+            <li><button type="button" onclick="openPolicy('contact')">Contact information</button></li>
+            <li><button type="button" onclick="openPolicy('legal')">Legal notice</button></li>
+        </ul>
+    </div>
+
+</footer>
+
+<script src="main.js"></script>
+<!-- =====================================================
+     POLICY MODAL
+===================================================== -->
+<div class="policy-modal" id="policyModal">
+  <div class="policy-modal__box">
+
+    <button class="policy-modal__close" id="policyClose">✕</button>
+
+    <h2 id="policyTitle"></h2>
+
+    <div class="policy-modal__content" id="policyBody"></div>
+
+  </div>
+</div>
+
+</body>
+</html>

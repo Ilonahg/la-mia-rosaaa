@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Checkout – La Mia Rosa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Global styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body data-page="checkout">
+
+  <main class="checkout">
+
+    <div class="checkout-container">
+
+      <!-- ================= LEFT COLUMN ================= -->
+      <section class="checkout-main">
+
+        <!-- CONTACT -->
+        <div class="checkout-section">
+          <h2 class="checkout-section-title">Contact</h2>
+
+          <div class="checkout-field">
+            <label>Email</label>
+            <input type="email" placeholder="Email" />
+          </div>
+        </div>
+
+        <!-- SHIPPING -->
+        <div class="checkout-section">
+          <h2 class="checkout-section-title">Shipping address</h2>
+
+          <div class="checkout-field">
+            <label>Country / Region</label>
+            <select>
+              <option>Turkey</option>
+            </select>
+          </div>
+
+          <div class="checkout-row">
+            <div class="checkout-field">
+              <label>First name</label>
+              <input type="text" />
+            </div>
+
+            <div class="checkout-field">
+              <label>Last name</label>
+              <input type="text" />
+            </div>
+          </div>
+
+          <div class="checkout-field">
+            <label>Address</label>
+            <input type="text" />
+          </div>
+
+          <div class="checkout-row">
+            <div class="checkout-field">
+              <label>City</label>
+              <input type="text" />
+            </div>
+
+            <div class="checkout-field">
+              <label>Postal code</label>
+              <input type="text" />
+            </div>
+          </div>
+        </div>
+
+        <!-- SHIPPING METHOD -->
+        <div class="checkout-section">
+          <h2 class="checkout-section-title">Shipping method</h2>
+
+          <div class="checkout-radio is-selected">
+            <span>Standard shipping</span>
+            <strong>Free</strong>
+          </div>
+        </div>
+
+        <!-- PAYMENT -->
+        <div class="checkout-section">
+          <h2 class="checkout-section-title">Payment</h2>
+          <p class="checkout-note">All transactions are secure and encrypted.</p>
+
+          <div class="checkout-radio is-selected">
+            <span>Credit / Debit card</span>
+          </div>
+        </div>
+
+        <!-- BILLING -->
+        <div class="checkout-section">
+          <h2 class="checkout-section-title">Billing address</h2>
+
+          <label class="checkout-radio is-selected">
+            <input type="radio" checked />
+            Same as shipping address
+          </label>
+
+          <label class="checkout-radio">
+            <input type="radio" />
+            Use a different billing address
+          </label>
+        </div>
+
+        <!-- PAY NOW -->
+        <button
+          class="checkout-pay-btn"
+          id="payNowBtn"
+          type="button"
+        >  
+          Pay now
+        </button>
+
+      </section>
+
+      <!-- ================= RIGHT COLUMN ================= -->
+      <aside class="checkout-summary">
+
+        <div class="checkout-summary-box">
+
+          <div class="checkout-summary-items" id="checkoutItems">
+            <!-- JS renders items -->
+          </div>
+
+          <div class="checkout-summary-row">
+            <span>Subtotal</span>
+            <span id="checkoutSubtotal">₺0</span>
+          </div>
+
+          <div class="checkout-summary-row">
+            <span>Shipping</span>
+            <span>Free</span>
+          </div>
+
+          <div class="checkout-summary-row checkout-summary-total">
+            <strong>Total</strong>
+            <strong id="checkoutTotal">₺0</strong>
+          </div>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+  </main>
+
+  <!-- Global JS -->
+  <script src="main.js"></script>
+</body>
+</html>

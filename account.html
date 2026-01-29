@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My account – La Mia Rosa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:,">
+</head>
+
+<body data-page="account">
+
+<!-- =====================================================
+   HEADER
+===================================================== -->
+<header class="account-header">
+  <div class="account-header-left">
+    <a href="index.html" class="account-logo">My store</a>
+    <a href="index.html" class="account-link">Shopping centre</a>
+    <a href="account.html?view=orders" class="account-link account-link-active">Orders</a>
+  </div>
+
+  <div class="account-header-right">
+    <button class="account-user-btn" id="accountUserBtn" aria-label="Account">
+      <div class="account-avatar is-empty" id="accountAvatar"></div>
+    </button>
+
+    <!-- ================= USER DROPDOWN ================= -->
+    <div class="account-dropdown" id="accountDropdown">
+
+      <!-- USER INFO -->
+      <div class="account-dropdown-user">
+        <div class="account-avatar small is-empty" id="accountAvatarSmall"></div>
+
+        <div class="account-dropdown-userinfo">
+          <div class="account-dropdown-name" id="accountUserName">Account</div>
+          <div class="account-dropdown-email" id="accountEmail">—</div>
+        </div>
+      </div>
+
+      <div class="account-dropdown-divider"></div>
+
+      <!-- LINKS -->
+      <a href="#" class="account-dropdown-link" data-view="profile">
+        Profile
+      </a>
+
+      <a href="#" class="account-dropdown-link" data-view="settings">
+        Settings
+      </a>
+
+      <div class="account-dropdown-divider"></div>
+
+      <button class="account-dropdown-logout" id="logoutBtn">
+        Log out
+      </button>
+
+    </div>
+  </div>
+</header>
+
+<!-- =====================================================
+   MAIN
+===================================================== -->
+<main class="account-page">
+  <h1 class="account-title">My account</h1>
+
+  <section class="account-content">
+
+    <!-- ================= ORDERS ================= -->
+    <div class="account-box" id="ordersView">
+      <h2 class="account-box-title">Orders</h2>
+
+      <div class="orders-empty">
+        <h3>No orders yet</h3>
+        <p>Go to the store to place your first order.</p>
+      </div>
+    </div>
+
+    <!-- ================= PROFILE ================= -->
+    <div class="account-box" id="profileView" hidden>
+      <h2 class="account-box-title">Profile</h2>
+
+      <div class="profile-section">
+
+        <div class="profile-row">
+          <span class="profile-label">Name</span>
+          <span class="profile-value" id="profileNameView">—</span>
+        </div>
+
+        <div class="profile-row">
+          <span class="profile-label">Email</span>
+          <span class="profile-value" id="profileEmailView">—</span>
+        </div>
+
+        <button class="btn-secondary" onclick="openProfileModal()">
+          Edit profile
+        </button>
+
+      </div>
+
+      <hr class="divider" />
+
+      <!-- ================= ADDRESSES ================= -->
+      <div class="profile-section">
+        <h3 class="profile-subtitle">Addresses</h3>
+
+        <div id="addressesList"></div>
+
+        <button class="btn-primary" onclick="openAddAddress()">
+          Add new address
+        </button>
+      </div>
+    </div>
+
+    <!-- ================= SETTINGS ================= -->
+    <div class="account-box" id="settingsView" hidden>
+      <h2 class="account-box-title">Settings</h2>
+
+      <div class="settings-box">
+        <h3>Log out of all sessions</h3>
+        <p class="account-muted">
+          If you've lost a device or have security concerns, log out of all sessions.
+        </p>
+
+        <button class="btn-secondary" id="logoutAllBtn">
+          Log out of all sessions
+        </button>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<!-- =====================================================
+   FOOTER
+===================================================== -->
+<footer class="account-footer">
+  <a href="#" onclick="openPolicy('refund'); return false;">Money-back policy</a>
+  <a href="#" onclick="openPolicy('shipping'); return false;">Cargo</a>
+  <a href="#" onclick="openPolicy('privacy'); return false;">Privacy policy</a>
+  <a href="#" onclick="openPolicy('terms'); return false;">Terms of Service</a>
+  <a href="#" onclick="openPolicy('legal'); return false;">Legal notice</a>
+  <a href="#" onclick="openPolicy('contact'); return false;">Contact information</a>
+</footer>
+
+<!-- =====================================================
+   PROFILE MODAL
+===================================================== -->
+<div class="modal-overlay" id="profileModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+
+    <h2>Edit profile</h2>
+
+    <label class="field">
+      <span>First name</span>
+      <input id="profileFirstName">
+    </label>
+
+    <label class="field">
+      <span>Last name</span>
+      <input id="profileLastName">
+    </label>
+
+    <label class="field">
+      <span>Email</span>
+      <input id="profileEmail" disabled>
+    </label>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveProfile()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- =====================================================
+   ADDRESS MODAL
+===================================================== -->
+<div class="modal-overlay" id="addressModal">
+  <div class="modal scroll">
+    <button class="modal-close" onclick="closeModal()">×</button>
+
+    <h2>Add address</h2>
+
+    <label class="checkbox">
+      <input type="checkbox" id="addressDefault">
+      Set as default address
+    </label>
+
+    <label class="field">
+      <span>Country</span>
+      <select id="addressCountry">
+        <option>Türkiye</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>First name</span>
+      <input id="addressFirstName">
+    </label>
+
+    <label class="field">
+      <span>Last name</span>
+      <input id="addressLastName">
+    </label>
+
+    <label class="field">
+      <span>Address</span>
+      <input id="addressLine1">
+    </label>
+
+    <label class="field">
+      <span>Apartment, suite, etc. (optional)</span>
+      <input id="addressLine2">
+    </label>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveAddress()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script src="./main.js"></script>
+<!-- ================= POLICY MODAL ================= -->
+<div id="policyModal" class="policy-modal">
+  <div class="policy-modal__content">
+    <button id="policyClose" class="policy-modal__close">×</button>
+    <h2 id="policyTitle"></h2>
+    <div id="policyBody" class="policy-modal__body"></div>
+  </div>
+</div>
+
+</body>
+</html>
