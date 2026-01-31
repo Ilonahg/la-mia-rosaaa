@@ -3,7 +3,7 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const nodemailer = require("nodemailer");
-const mysql = require("mysql2");
+const { Pool } = require("pg");
 const path = require("path");
 const fs = require("fs");
 
@@ -37,22 +37,16 @@ app.use(cors({
 }));
 
 /* =====================================================
-   MYSQL DATABASE
+   POSTGRES DATABASE
 ===================================================== */
-const db = mysql.createPool({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "lamia_store",
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
+const db = new Pool({
+  connectionString: "postgresql://lamia_user:8z2BbdK785SlANoUDnRqr3WiMlMDprwQ@dpg-d5v7d27pm1nc73cca6ng-a.frankfurt-postgres.render.com/lamia_store",
+  ssl: { rejectUnauthorized: false }
 });
 
-db.getConnection((err) => {
-    if (err) console.error("MYSQL CONNECTION ERROR:", err);
-    else console.log("MYSQL CONNECTED");
-});
+db.connect()
+  .then(() => console.log("POSTGRES CONNECTED"))
+  .catch(err => console.error("POSTGRES ERROR:", err));
 
 /* =====================================================
    EMAIL (GMAIL)
@@ -132,7 +126,8 @@ app.post("/send-code", async (req, res) => {
 /* =====================================================
    VERIFY CODE + LOGIN / REGISTER
 ===================================================== */
-app.post("/verify-code", (req, res) => {
+app.post("/verify-code", async (req, res) => {
+  try {
     const { email, code } = req.body;
     const record = otpStore.get(email);
 
@@ -142,39 +137,35 @@ app.post("/verify-code", (req, res) => {
 
     otpStore.delete(email);
 
-    db.query("SELECT id FROM users WHERE email = ?", [email], (err, results) => {
-        if (err) {
-            console.error("DB error:", err);
-            return res.status(500).json({ error: "DB error" });
-        }
+    const result = await db.query("SELECT id FROM users WHERE email = $1", [email]);
+    let user = result.rows[0];
 
-        const user = results[0];
+    const login = (userId) => {
+      const token = jwt.sign({ userId, email }, JWT_SECRET, { expiresIn: "7d" });
 
-        const login = (userId) => {
-            const token = jwt.sign(
-                { userId, email },
-                JWT_SECRET,
-                { expiresIn: "7d" }
-            );
+      res.cookie("auth_token", token, {
+        httpOnly: true,
+        sameSite: "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000
+      });
 
-            res.cookie("auth_token", token, {
-                httpOnly: true,
-                sameSite: "lax",
-                maxAge: 7 * 24 * 60 * 60 * 1000
-            });
+      res.json({ ok: true });
+    };
 
-            res.json({ ok: true });
-        };
+    if (!user) {
+      const insert = await db.query(
+        "INSERT INTO users (email) VALUES ($1) RETURNING id",
+        [email]
+      );
+      login(insert.rows[0].id);
+    } else {
+      login(user.id);
+    }
 
-        if (!user) {
-            db.query("INSERT INTO users (email) VALUES (?)", [email], (err, result) => {
-                if (err) return res.status(500).json({ error: "DB error" });
-                login(result.insertId);
-            });
-        } else {
-            login(user.id);
-        }
-    });
+  } catch (err) {
+    console.error("VERIFY CODE ERROR:", err);
+    res.status(500).json({ error: "Server error" });
+  }
 });
 
 /* =====================================================
@@ -207,67 +198,65 @@ app.post("/logout", (req, res) => {
 /* =====================================================
    CREATE ORDER (AUTH USER)
 ===================================================== */
-app.post("/orders", requireAuth, (req, res) => {
+app.post("/orders", requireAuth, async (req, res) => {
+  try {
     const { items, total } = req.body;
 
     if (!items || !Array.isArray(items) || !total) {
-        return res.status(400).json({ error: "Invalid order data" });
+      return res.status(400).json({ error: "Invalid order data" });
     }
 
-    db.query(
-        `
-        INSERT INTO orders (user_id, items, total)
-        VALUES (?, ?, ?)
-        `,
-        [
-            req.user.userId,
-            JSON.stringify(items),
-            total
-        ],
-        (err, result) => {
-            if (err) {
-                console.error("ORDER INSERT ERROR", err);
-                return res.status(500).json({ error: "Order save failed" });
-            }
-
-            res.json({
-                ok: true,
-                orderId: result.insertId
-            });
-        }
+    const result = await db.query(
+      `INSERT INTO orders (user_id, items, total)
+       VALUES ($1, $2, $3)
+       RETURNING id`,
+      [
+        req.user.userId,
+        JSON.stringify(items),
+        total
+      ]
     );
+
+    res.json({
+      ok: true,
+      orderId: result.rows[0].id
+    });
+
+  } catch (err) {
+    console.error("ORDER INSERT ERROR", err);
+    res.status(500).json({ error: "Order save failed" });
+  }
 });
 
 /* =====================================================
    GET USER ORDERS
 ===================================================== */
-app.get("/orders", requireAuth, (req, res) => {
-    db.query(
-        `
-        SELECT id, items, total, status, created_at
-        FROM orders
-        WHERE user_id = ?
-        ORDER BY created_at DESC
-        `,
-        [req.user.userId],
-        (err, rows) => {
-            if (err) {
-                console.error("ORDERS FETCH ERROR", err);
-                return res.status(500).json({ error: "Failed to load orders" });
-            }
-
-            const orders = rows.map(row => ({
-                id: row.id,
-                items: JSON.parse(row.items),
-                total: row.total,
-                status: row.status,
-                createdAt: row.created_at
-            }));
-
-            res.json({ orders });
-        }
+app.get("/orders", requireAuth, async (req, res) => {
+  try {
+    const result = await db.query(
+      `SELECT id, items, total, status, created_at
+       FROM orders
+       WHERE user_id = $1
+       ORDER BY created_at DESC`,
+      [req.user.userId]
     );
+
+    const orders = result.rows.map(row => ({
+      id: row.id,
+      items: JSON.parse(row.items),
+      total: row.total,
+      status: row.status,
+      createdAt: row.created_at
+    }));
+
+    res.json({ orders });
+
+  } catch (err) {
+    console.error("ORDERS FETCH ERROR", err);
+    res.status(500).json({ error: "Failed to load orders" });
+  }
 });
+
 /* =====================================================
    ORDER EMAIL TEMPLATE
 ===================================================== */
@@ -349,69 +338,65 @@ function orderEmailTemplate({ items, total }) {
    CREATE PAYMENT — AUTO LINK TO USER BY EMAIL
 ===================================================== */
 app.post("/create-payment", async (req, res) => {
-
+  try {
     const { cart, total, email } = req.body;
 
     if (!cart || !cart.length) {
-        return res.status(400).json({ error: "Cart is empty" });
+      return res.status(400).json({ error: "Cart is empty" });
     }
 
     if (!email) {
-        return res.status(400).json({ error: "Email required" });
+      return res.status(400).json({ error: "Email required" });
     }
 
-    // 🔐 ДІСТАЄМО КОРИСТУВАЧА З COOKIE
     let userId = null;
-
     const token = req.cookies.auth_token;
+
     if (token) {
-        try {
-            const payload = jwt.verify(token, JWT_SECRET);
-            userId = payload.userId; // ← ТУТ ID
-        } catch {}
+      try {
+        const payload = jwt.verify(token, JWT_SECRET);
+        userId = payload.userId;
+      } catch {}
     }
 
     const numericTotal = Number(total.replace("₺", "").replace(",", ""));
 
-    db.query(
-        `
-        INSERT INTO orders (user_id, items, total, status)
-        VALUES (?, ?, ?, ?)
-        `,
-        [
-            userId, // ✅ ТЕПЕР НЕ NULL
-            JSON.stringify(cart),
-            numericTotal,
-            "paid"
-        ],
-        async (err, result) => {
-
-            if (err) {
-                console.error("ORDER SAVE ERROR", err);
-                return res.status(500).json({ error: "Order save failed" });
-            }
-
-            try {
-                const { html, attachments } = orderEmailTemplate({
-                    items: cart,
-                    total: numericTotal.toFixed(2)
-                });
-
-                await transporter.sendMail({
-                    from: `"La Mia Rosa" <gogilchyn2005ilona@gmail.com>`,
-                    to: email,
-                    subject: "Order confirmation – La Mia Rosa",
-                    html,
-                    attachments
-                });
-
-            } catch (mailErr) {
-                console.error("EMAIL ERROR", mailErr);
-            }
-
-            res.json({ ok: true, orderId: result.insertId });
-        }
+    const result = await db.query(
+      `INSERT INTO orders (user_id, items, total, status)
+       VALUES ($1, $2, $3, $4)
+       RETURNING id`,
+      [
+        userId,
+        JSON.stringify(cart),
+        numericTotal,
+        "paid"
+      ]
     );
+
+    try {
+      const { html, attachments } = orderEmailTemplate({
+        items: cart,
+        total: numericTotal.toFixed(2)
+      });
+
+      await transporter.sendMail({
+        from: `"La Mia Rosa" <gogilchyn2005ilona@gmail.com>`,
+        to: email,
+        subject: "Order confirmation – La Mia Rosa",
+        html,
+        attachments
+      });
+
+    } catch (mailErr) {
+      console.error("EMAIL ERROR", mailErr);
+    }
+
+    res.json({ ok: true, orderId: result.rows[0].id });
+
+  } catch (err) {
+    console.error("CREATE PAYMENT ERROR", err);
+    res.status(500).json({ error: "Payment failed" });
+  }
 });
 
 
@@ -453,46 +438,42 @@ app.get("/test-email", async (req, res) => {
    CONTACT FORM API
 ===================================================== */
 app.post("/contact", async (req, res) => {
+  try {
     const { name, email, phone, comment } = req.body;
 
     if (!email || !comment) {
-        return res.status(400).json({ error: "Missing required fields" });
+      return res.status(400).json({ error: "Missing required fields" });
     }
 
-    db.query(
-        `
-        INSERT INTO contacts (name, email, phone, message)
-        VALUES (?, ?, ?, ?)
-        `,
-        [name || "", email, phone || "", comment],
-        async (err) => {
-
-            if (err) {
-                console.error("CONTACT DB ERROR", err);
-                return res.status(500).json({ error: "Database error" });
-            }
-
-            try {
-                await transporter.sendMail({
-                    from: `"La Mia Rosa" <gogilchyn2005ilona@gmail.com>`,
-                    to: "gogilchyn2005ilona@gmail.com",
-                    subject: "New message from Communication page",
-                    html: `
-                        <h2>New Customer Message</h2>
-                        <p><strong>Name:</strong> ${name}</p>
-                        <p><strong>Email:</strong> ${email}</p>
-                        <p><strong>Phone:</strong> ${phone}</p>
-                        <p><strong>Message:</strong><br/>${comment}</p>
-                    `
-                });
-
-            } catch (mailErr) {
-                console.error("CONTACT EMAIL ERROR", mailErr);
-            }
-
-            res.json({ success: true });
-        }
+    await db.query(
+      `INSERT INTO contacts (name, email, phone, message)
+       VALUES ($1, $2, $3, $4)`,
+      [name || "", email, phone || "", comment]
     );
+
+    try {
+      await transporter.sendMail({
+        from: `"La Mia Rosa" <gogilchyn2005ilona@gmail.com>`,
+        to: "gogilchyn2005ilona@gmail.com",
+        subject: "New message from Communication page",
+        html: `
+          <h2>New Customer Message</h2>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Phone:</strong> ${phone}</p>
+          <p><strong>Message:</strong><br/>${comment}</p>
+        `
+      });
+    } catch (mailErr) {
+      console.error("CONTACT EMAIL ERROR", mailErr);
+    }
+
+    res.json({ success: true });
+
+  } catch (err) {
+    console.error("CONTACT DB ERROR", err);
+    res.status(500).json({ error: "Database error" });
+  }
 });
 
 /* =====================================================
