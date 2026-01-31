@@ -1468,7 +1468,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 /* =====================================================
-   ADD TO CART — LUXURY BUTTON UX
+   ADD TO CART — LUXURY BUTTON UX (FIXED CART SYSTEM)
 ===================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -1495,7 +1495,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const mainImageEl = document.querySelector(".product-main-image");
     let image = mainImageEl ? mainImageEl.getAttribute("src") : product.images[0];
 
-
     let color = null;
     const colorOption = document.getElementById("colorOption");
     if (colorOption && colorOption.style.display !== "none") {
@@ -1509,7 +1508,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const cart = JSON.parse(localStorage.getItem("shopify_cart")) || [];
 
-    cart.push({ productKey, title, price, qty, image, color, size });
+    /* 🔎 CHECK IF SAME PRODUCT VARIANT EXISTS */
+    const existingItem = cart.find(item =>
+      item.productKey === productKey &&
+      item.color === color &&
+      item.size === size
+    );
+
+    if (existingItem) {
+      existingItem.qty += qty;   // ✅ increase quantity
+    } else {
+      cart.push({ productKey, title, price, qty, image, color, size });
+    }
 
     localStorage.setItem("shopify_cart", JSON.stringify(cart));
     updateCartCount();
@@ -1526,6 +1536,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2000);
   });
 });
+
 
 /* =====================================================
    CART PAGE INIT
@@ -2208,16 +2219,72 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
- 
-/* ===============================
-   MOBILE BURGER TOGGLE (SAFE)
-=============================== */
-const burgerBtn = document.getElementById("burgerBtn");
-const navMenu = document.querySelector(".header__nav");
 
-if (burgerBtn && navMenu) {
-  burgerBtn.addEventListener("click", () => {
-    navMenu.classList.toggle("active");
+/* =====================================================
+   MOBILE NAV SYSTEM — FINAL SHOPIFY BEHAVIOR (FIXED)
+===================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+
+  const burgerBtn = document.getElementById("burgerBtn");
+  const nav = document.querySelector(".header__nav");
+  const body = document.body;
+  const overlay = document.getElementById("menuOverlay");
+
+  if (!burgerBtn || !nav || !overlay) return;
+
+  /* ===== OPEN MENU ===== */
+  function openMenu() {
+    burgerBtn.classList.add("is-active");
+    nav.classList.add("is-open");
+    overlay.classList.add("is-visible");
+    body.classList.add("no-scroll");
+    body.classList.add("mobile-nav-active"); // ⭐ ЛОГО ЦЕНТРУЄТЬСЯ ТІЛЬКИ ТУТ
+  }
+
+  /* ===== CLOSE MENU ===== */
+  function closeMenu() {
+    burgerBtn.classList.remove("is-active");
+    nav.classList.remove("is-open");
+    overlay.classList.remove("is-visible");
+    body.classList.remove("no-scroll");
+    body.classList.remove("mobile-nav-active");
+
+    document.querySelectorAll(".nav-item.mobile-open")
+      .forEach(item => item.classList.remove("mobile-open"));
+  }
+
+  /* ===== BURGER CLICK ===== */
+  burgerBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    nav.classList.contains("is-open") ? closeMenu() : openMenu();
   });
-}
+
+  /* ===== OVERLAY CLICK ===== */
+  overlay.addEventListener("click", closeMenu);
+
+  /* ===== MOBILE DROPDOWNS ===== */
+  const triggers = document.querySelectorAll(".nav-item.has-dropdown > .nav-trigger");
+
+  triggers.forEach(trigger => {
+    trigger.addEventListener("click", (e) => {
+
+      if (window.innerWidth > 992) return;
+
+      e.preventDefault();
+      const parent = trigger.closest(".nav-item");
+
+      document.querySelectorAll(".nav-item.mobile-open")
+        .forEach(item => item !== parent && item.classList.remove("mobile-open"));
+
+      parent.classList.toggle("mobile-open");
+    });
+  });
+
+  /* ===== CLOSE WHEN LINK CLICKED ===== */
+  nav.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", closeMenu);
+  });
+
+});
+
  

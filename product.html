@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Product – La Mia Rosa</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -26,7 +28,17 @@
 <!-- =====================================================
      HEADER (SHOPIFY STYLE NAV TRIGGERS)
 ===================================================== -->
-<header class="site-header" id="site-header">
+<header class="site-header header-reset" id="site-header">
+<div class="menu-overlay" id="menuOverlay"></div>
+
+
+
+<!-- MOBILE BURGER -->
+<button class="burger" id="burgerBtn" aria-label="Menu">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
 
   <!-- LOGO -->
   <div class="header__logo">
@@ -37,7 +49,7 @@
   </div>
 
   <!-- NAVIGATION -->
-  <nav class="header__nav">
+  <nav class="header__nav" id="mobileNav">
     <ul class="nav-list">
 
       <li class="nav-item active">
@@ -306,7 +318,9 @@
 
                 <!-- ACTIONS -->
                 <button class="btn-add">Add to cart</button>
-                <button class="btn-buy">Buy now</button>
+                 
+                <a href="checkout.html" class="btn-buy">Buy Now</a>
+
 
                 <!-- 🔥 STOCK INFO — JS CONTROLS THIS -->
                 <p class="stock-info" id="stockInfo" style="display:none;"></p>

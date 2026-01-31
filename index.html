@@ -9,7 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-page="home">
+
 
 <!-- =====================================================
      BLOCK 1: ANNOUNCEMENT BAR
@@ -29,7 +30,12 @@
 <!-- =====================================================
      HEADER (SHOPIFY STYLE NAV TRIGGERS)
 ===================================================== -->
-<header class="site-header" id="site-header">
+<header class="site-header header-reset" id="site-header">
+
+<div class="menu-overlay" id="menuOverlay"></div>
+
+
+
 <!-- MOBILE BURGER -->
 <button class="burger" id="burgerBtn" aria-label="Menu">
   <span></span>
@@ -37,13 +43,13 @@
   <span></span>
 </button>
 
-  <!-- LOGO -->
-  <div class="header__logo">
-    <a href="index.html">
-      <span class="logo-line">La Mia</span>
-      <span class="logo-line">Rosa</span>
-    </a>
-  </div>
+<!-- LOGO -->
+<div class="header__logo">
+  <a href="index.html" class="logo-wrap">
+    <span class="logo-line">La Mia</span>
+    <span class="logo-line">Rosa</span>
+  </a>
+</div>
 
   <!-- NAVIGATION -->
   <nav class="header__nav">
@@ -156,30 +162,24 @@
 <!-- =====================================================
      HERO BLOCK
 ===================================================== -->
-
 <section class="hero reveal">
-
 
     <div class="hero__grid">
 
-        <!-- LEFT IMAGE -->
         <div class="hero__item">
             <img src="images/brown-zip-cardigan.jpg" alt="Brown zip cardigan">
         </div>
 
-        <!-- CENTER IMAGE -->
         <div class="hero__item hero__item--center">
             <img src="images/main-photo.jpg" alt="Fall / Winter collection">
         </div>
 
-        <!-- RIGHT IMAGE -->
         <div class="hero__item">
             <img src="images/black-zip-cardigan-1.jpg" alt="Black zip cardigan">
         </div>
 
     </div>
 
-    <!-- HERO TEXT -->
     <div class="hero__content">
         <h1 class="hero__title">
             <span>Fall</span>
@@ -187,15 +187,12 @@
             <span>Winter 26</span>
         </h1>
 
-        <!-- ✅ START SHOPPING → ALL COLLECTIONS -->
-        <a href="collection.html?collection=all"
-           class="hero__button">
+        <a href="collection.html?collection=all" class="hero__button">
             Start Shopping
         </a>
     </div>
 
 </section>
-
 
 <!-- =====================================================
      BLOCK 4: CATEGORIES
