@@ -92,36 +92,35 @@ app.get("/", (req, res) => {
    SEND EMAIL CODE
 ===================================================== */
 app.post("/send-code", async (req, res) => {
-    try {
-        const { email } = req.body;
-        if (!email) return res.status(400).json({ error: "Email required" });
+  try {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ error: "Email required" });
 
-        const existing = otpStore.get(email);
-        if (existing && Date.now() < existing.expiresAt) {
-            return res.json({ ok: true });
-        }
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
 
-        const code = Math.floor(100000 + Math.random() * 900000).toString();
+    await db.query(
+      `INSERT INTO otp_codes (email, code, expires_at)
+       VALUES ($1, $2, NOW() + INTERVAL '5 minutes')
+       ON CONFLICT (email)
+       DO UPDATE SET code = $2, expires_at = NOW() + INTERVAL '5 minutes'`,
+      [email, code]
+    );
 
-        otpStore.set(email, {
-            code,
-            expiresAt: Date.now() + 5 * 60 * 1000
-        });
+    await transporter.sendMail({
+      from: `"La Mia Rosa" <gogilchyn2005ilona@gmail.com>`,
+      to: email,
+      subject: "Your login code",
+      html: `<h2>Your code: ${code}</h2>`
+    });
 
-        await transporter.sendMail({
-            from: `"La Mia Rosa" <gogilchyn2005ilona@gmail.com>`,
-            to: email,
-            subject: "Your login code",
-            html: `<h2>Your code: ${code}</h2>`
-        });
+    res.json({ ok: true });
 
-        res.json({ ok: true });
-
-    } catch (err) {
-        console.error("SEND CODE ERROR", err);
-        res.status(500).json({ error: "Mail error" });
-    }
+  } catch (err) {
+    console.error("SEND CODE ERROR", err);
+    res.status(500).json({ error: "Mail error" });
+  }
 });
+
 
 /* =====================================================
    VERIFY CODE + LOGIN / REGISTER
@@ -129,44 +128,46 @@ app.post("/send-code", async (req, res) => {
 app.post("/verify-code", async (req, res) => {
   try {
     const { email, code } = req.body;
-    const record = otpStore.get(email);
 
-    if (!record) return res.status(400).json({ error: "Code not found" });
-    if (Date.now() > record.expiresAt) return res.status(400).json({ error: "Code expired" });
-    if (record.code !== code) return res.status(400).json({ error: "Invalid code" });
+    const result = await db.query(
+      `SELECT code FROM otp_codes
+       WHERE email = $1 AND expires_at > NOW()`,
+      [email]
+    );
 
-    otpStore.delete(email);
+    if (!result.rows.length || result.rows[0].code !== code) {
+      return res.status(400).json({ error: "Invalid or expired code" });
+    }
 
-    const result = await db.query("SELECT id FROM users WHERE email = $1", [email]);
-    let user = result.rows[0];
+    await db.query("DELETE FROM otp_codes WHERE email = $1", [email]);
 
-    const login = (userId) => {
-      const token = jwt.sign({ userId, email }, JWT_SECRET, { expiresIn: "7d" });
-
-      res.cookie("auth_token", token, {
-        httpOnly: true,
-        sameSite: "lax",
-        maxAge: 7 * 24 * 60 * 60 * 1000
-      });
-
-      res.json({ ok: true });
-    };
+    const userResult = await db.query("SELECT id FROM users WHERE email = $1", [email]);
+    let user = userResult.rows[0];
 
     if (!user) {
       const insert = await db.query(
         "INSERT INTO users (email) VALUES ($1) RETURNING id",
         [email]
       );
-      login(insert.rows[0].id);
-    } else {
-      login(user.id);
+      user = insert.rows[0];
     }
 
+    const token = jwt.sign({ userId: user.id, email }, JWT_SECRET, { expiresIn: "7d" });
+
+    res.cookie("auth_token", token, {
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+
+    res.json({ ok: true });
+
   } catch (err) {
-    console.error("VERIFY CODE ERROR:", err);
+    console.error("VERIFY CODE ERROR", err);
     res.status(500).json({ error: "Server error" });
   }
 });
+
 
 /* =====================================================
    GET CURRENT USER

@@ -813,7 +813,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function isLoggedIn() {
         try {
-            const res = await fetch("http://localhost:3001/me", {
+            const res = await fetch("https://la-mia-rosa-api.onrender.com/me", {
+
                 credentials: "include"
             });
             const data = await res.json();
@@ -852,7 +853,8 @@ document.addEventListener("DOMContentLoaded", () => {
         authMessage.textContent = "Sending code...";
 
         try {
-            const res = await fetch("http://localhost:3001/send-code", {
+            const res = await fetch("https://la-mia-rosa-api.onrender.com/send-code", {
+
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include", // ✅ FIX
@@ -886,7 +888,8 @@ document.addEventListener("DOMContentLoaded", () => {
         codeMsg.textContent = "Verifying...";
 
         try {
-            const res = await fetch("http://localhost:3001/verify-code", {
+           const res = await fetch("https://la-mia-rosa-api.onrender.com/verify-code", {
+
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
@@ -1152,7 +1155,8 @@ window.addEventListener("popstate", e => {
 
   async function loadAccountUser() {
     try {
-      const res = await fetch("http://localhost:3001/me", {
+     const res = await fetch("https://la-mia-rosa-api.onrender.com/me", {
+
         credentials: "include"
       });
       const data = await res.json();
@@ -1176,7 +1180,8 @@ async function loadOrders() {
   if (!ordersView) return;
 
   try {
-    const res = await fetch("http://localhost:3001/orders", {
+    const res = await fetch("https://la-mia-rosa-api.onrender.com/orders", {
+
       credentials: "include"
     });
 
@@ -1393,7 +1398,8 @@ window.saveAddress = function () {
   if (logoutAllBtn) {
     logoutAllBtn.onclick = async () => {
       try {
-        await fetch("http://localhost:3001/logout", {
+        await fetch("https://la-mia-rosa-api.onrender.com/logout", {
+
           method: "POST",
           credentials: "include"
         });
@@ -1456,7 +1462,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (logoutBtn) {
     logoutBtn.addEventListener("click", async () => {
       try {
-        await fetch("http://localhost:3001/logout", {
+        await fetch("https://la-mia-rosa-api.onrender.com/logout", {
+
           method: "POST",
           credentials: "include"
         });
@@ -1851,7 +1858,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 
     try {
-      const res = await fetch("http://localhost:3001/create-payment", {
+      const res = await fetch("https://la-mia-rosa-api.onrender.com/create-payment", {
+
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include", // 🔥 щоб передався auth_token cookie
@@ -2082,7 +2090,8 @@ if (contactForm) {
     };
 
     try {
-      const response = await fetch("http://localhost:3001/contact", {
+      const response = await fetch("https://la-mia-rosa-api.onrender.com/contact", {
+
         method: "POST",
         headers: {
           "Content-Type": "application/json",
