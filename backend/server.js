@@ -152,7 +152,8 @@ app.post("/verify-code", async (req, res) => {
 
     res.cookie("auth_token", token, {
       httpOnly: true,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
