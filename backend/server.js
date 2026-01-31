@@ -8,7 +8,8 @@ const path = require("path");
 const fs = require("fs");
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
+
 
 /* =====================================================
    STATIC FILES
@@ -497,5 +498,6 @@ app.post("/contact", async (req, res) => {
    START SERVER
 ===================================================== */
 app.listen(PORT, () => {
-    console.log("🚀 SERVER ON http://localhost:" + PORT);
+    console.log(`🚀 SERVER RUNNING ON PORT ${PORT}`);
+
 });
