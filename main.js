@@ -2309,5 +2309,42 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
+/* =====================================================
+   SIMPLE LOGIN PAGE AUTH (NETLIFY VERSION)
+===================================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const emailInput = document.querySelector('input[type="email"]');
+  const continueBtn = document.querySelector('button');
+  const message = document.querySelector(".login-message, #authMessage, .auth-message");
+
+  if (!emailInput || !continueBtn) return;
+
+  continueBtn.addEventListener("click", async () => {
+
+    const email = emailInput.value.trim();
+    if (!email) return;
+
+    if (message) message.textContent = "Sending code...";
+
+    try {
+      const res = await fetch("https://la-mia-rosa-api.onrender.com/send-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ email })
+      });
+
+      if (!res.ok) throw new Error();
+
+      if (message) message.textContent = "Code sent ✓";
+
+    } catch (err) {
+      if (message) message.textContent = "Server error";
+    }
+  });
+
+});
 
  
