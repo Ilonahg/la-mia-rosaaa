@@ -28,15 +28,14 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin) return callback(null, true);
-    if (origin.includes("netlify.app")) {
-      return callback(null, true);
-    }
-    return callback(null, true);
-  },
+  origin: [
+    "https://chimerical-kitsune-11c58a.netlify.app",
+    "http://localhost:5500",
+    "http://127.0.0.1:5500"
+  ],
   credentials: true
 }));
+
 
 /* =====================================================
    POSTGRES DATABASE
