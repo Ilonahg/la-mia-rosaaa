@@ -780,7 +780,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const codeBtn = document.getElementById("emailCodeSubmit");
     const codeMsg = document.getElementById("emailCodeMessage");
 
-    if (!authOverlay || !openAuth) return;
+    if (!authOverlay) return;
+
 
     let locked = false;
 

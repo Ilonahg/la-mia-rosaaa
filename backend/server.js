@@ -47,20 +47,20 @@ const db = new Pool({
 });
 
 db.connect()
-  .then(() => console.log("POSTGRES CONNECTED"))
-  .catch(err => console.error("POSTGRES ERROR:", err));
+  .then(async () => {
+    console.log("POSTGRES CONNECTED");
 
-/* =====================================================
-   AUTO CREATE TABLES (OTP)
-===================================================== */
-db.query(`
-  CREATE TABLE IF NOT EXISTS otp_codes (
-    email TEXT PRIMARY KEY,
-    code TEXT NOT NULL,
-    expires_at TIMESTAMP NOT NULL
-  );
-`).then(() => console.log("OTP TABLE READY"))
-  .catch(err => console.error("OTP TABLE ERROR:", err));
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS otp_codes (
+        email TEXT PRIMARY KEY,
+        code TEXT NOT NULL,
+        expires_at TIMESTAMP NOT NULL
+      );
+    `);
+
+    console.log("OTP TABLE READY");
+  })
+  .catch(err => console.error("POSTGRES ERROR:", err));
 
 /* =====================================================
    EMAIL (GMAIL)
@@ -135,7 +135,57 @@ app.post("/send-code", async (req, res) => {
   }
 });
 
- 
+/* =====================================================
+   VERIFY EMAIL CODE
+===================================================== */
+app.post("/verify-code", async (req, res) => {
+  try {
+    const { email, code } = req.body;
+
+    if (!email || !code) {
+      return res.status(400).json({ error: "Missing data" });
+    }
+
+    const result = await db.query(
+      `SELECT * FROM otp_codes WHERE email = $1`,
+      [email]
+    );
+
+    if (!result.rows.length) {
+      return res.status(400).json({ error: "Code not found" });
+    }
+
+    const record = result.rows[0];
+
+    if (record.code !== code) {
+      return res.status(400).json({ error: "Wrong code" });
+    }
+
+    if (new Date(record.expires_at) < new Date()) {
+      return res.status(400).json({ error: "Code expired" });
+    }
+
+    // 🔐 LOGIN SUCCESS — create auth cookie
+    const token = jwt.sign(
+      { userId: email, email },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.cookie("auth_token", token, {
+      httpOnly: true,
+      sameSite: "None",
+      secure: true
+    });
+
+    res.json({ ok: true });
+
+  } catch (err) {
+    console.error("VERIFY CODE ERROR", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 
 /* =====================================================
    GET CURRENT USER
