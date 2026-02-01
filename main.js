@@ -780,11 +780,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const codeBtn = document.getElementById("emailCodeSubmit");
     const codeMsg = document.getElementById("emailCodeMessage");
 
-    if (!authOverlay || !authSubmit || !authEmail) {
+    if (!authOverlay) {
     console.log("AUTH UI NOT FOUND");
-    return;
 }
-
 
 
     let locked = false;
