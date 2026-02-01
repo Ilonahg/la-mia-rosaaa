@@ -773,7 +773,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const authCode = document.getElementById("authCode");
 
     const authEmail = document.getElementById("authEmail");
-    const authSubmit = document.getElementById("authSubmitBtn");
+    const authSubmit = document.querySelector("#authOverlay .btn");
+
 
 
     const authMessage = document.getElementById("authMessage");
