@@ -854,22 +854,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const res = await fetch("https://la-mia-rosa-api.onrender.com/send-code", {
-
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include", // ✅ FIX
+                headers: { 
+                    "Content-Type": "application/json" 
+                },
+                credentials: "include",
                 body: JSON.stringify({ email })
             });
 
             if (!res.ok) throw new Error();
+
             showCode();
             authMessage.textContent = "";
-        } catch {
+
+        } catch (err) {
+            console.error(err);
             authMessage.textContent = "Failed to send code";
         }
 
         locked = false;
     });
+
 
     /* ---------- VERIFY CODE ---------- */
 

@@ -28,7 +28,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(cors({
-    origin: true,
+    origin: "https://la-mia-rosa.netlify.app",
     credentials: true
 }));
 
@@ -117,52 +117,43 @@ app.post("/send-code", async (req, res) => {
   }
 });
 
+/* ---------- VERIFY CODE ---------- */
+codeBtn.addEventListener("click", async () => {
+    if (locked) return;
 
-/* =====================================================
-   VERIFY CODE + LOGIN / REGISTER
-===================================================== */
-app.post("/verify-code", async (req, res) => {
-  try {
-    const { email, code } = req.body;
+    const code = codeInput.value.trim();
+    const email = authEmail.value.trim();
 
-    const result = await db.query(
-      `SELECT code FROM otp_codes
-       WHERE email = $1 AND expires_at > NOW()`,
-      [email]
-    );
-
-    if (!result.rows.length || result.rows[0].code !== code) {
-      return res.status(400).json({ error: "Invalid or expired code" });
+    if (code.length !== 6) {
+        codeMsg.textContent = "Invalid code";
+        return;
     }
 
-    await db.query("DELETE FROM otp_codes WHERE email = $1", [email]);
+    locked = true;
+    codeMsg.textContent = "Verifying...";
 
-    const userResult = await db.query("SELECT id FROM users WHERE email = $1", [email]);
-    let user = userResult.rows[0];
+    try {
+        const res = await fetch("https://la-mia-rosa-api.onrender.com/verify-code", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, code })
+        });
 
-    if (!user) {
-      const insert = await db.query(
-        "INSERT INTO users (email) VALUES ($1) RETURNING id",
-        [email]
-      );
-      user = insert.rows[0];
+        if (!res.ok) throw new Error();
+
+        const data = await res.json();
+
+        // 🔐 SAVE TOKEN
+        localStorage.setItem("auth_token", data.token);
+
+        closeOverlay();
+        location.href = "account.html";
+
+    } catch {
+        codeMsg.textContent = "Wrong code";
     }
 
-    const token = jwt.sign({ userId: user.id, email }, JWT_SECRET, { expiresIn: "7d" });
-
-    res.cookie("auth_token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      maxAge: 7 * 24 * 60 * 60 * 1000
-    });
-
-    res.json({ ok: true });
-
-  } catch (err) {
-    console.error("VERIFY CODE ERROR", err);
-    res.status(500).json({ error: "Server error" });
-  }
+    locked = false;
 });
 
 
