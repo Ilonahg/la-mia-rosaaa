@@ -27,14 +27,24 @@ const JWT_SECRET = "SUPER_SECRET_CHANGE_LATER";
 app.use(express.json());
 app.use(cookieParser());
 
+const allowedOrigins = [
+  "http://localhost:5500",
+  "http://127.0.0.1:5500",
+  "https://ilonahg.github.io"
+];
+
 app.use(cors({
-  origin: [
-    "https://chimerical-kitsune-11c58a.netlify.app",
-    "http://localhost:5500",
-    "http://127.0.0.1:5500"
-  ],
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true
 }));
+
 
 
 /* =====================================================
