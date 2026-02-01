@@ -50,6 +50,7 @@ db.connect()
   .then(async () => {
     console.log("POSTGRES CONNECTED");
 
+    // OTP TABLE
     await db.query(`
       CREATE TABLE IF NOT EXISTS otp_codes (
         email TEXT PRIMARY KEY,
@@ -58,7 +59,31 @@ db.connect()
       );
     `);
 
-    console.log("OTP TABLE READY");
+    // ORDERS TABLE
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS orders (
+        id SERIAL PRIMARY KEY,
+        user_id TEXT,
+        items JSONB NOT NULL,
+        total NUMERIC NOT NULL,
+        status TEXT DEFAULT 'paid',
+        created_at TIMESTAMP DEFAULT NOW()
+      );
+    `);
+
+    // CONTACTS TABLE
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS contacts (
+        id SERIAL PRIMARY KEY,
+        name TEXT,
+        email TEXT NOT NULL,
+        phone TEXT,
+        message TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT NOW()
+      );
+    `);
+
+    console.log("ALL TABLES READY");
   })
   .catch(err => console.error("POSTGRES ERROR:", err));
 
