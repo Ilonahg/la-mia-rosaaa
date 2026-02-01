@@ -28,9 +28,12 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(cors({
-    origin: "https://la-mia-rosa.netlify.app",
+    origin: [
+        "https://chimerical-kitsune-11c58a.netlify.app"
+    ],
     credentials: true
 }));
+
 
 /* =====================================================
    POSTGRES DATABASE
