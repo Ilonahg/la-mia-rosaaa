@@ -28,7 +28,13 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(cors({
-  origin: "https://chimerical-kitsune-11c58a.netlify.app",
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true);
+    if (origin.includes("netlify.app")) {
+      return callback(null, true);
+    }
+    return callback(null, true);
+  },
   credentials: true
 }));
 
