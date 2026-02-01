@@ -117,52 +117,7 @@ app.post("/send-code", async (req, res) => {
   }
 });
 
-/* =====================================================
-   VERIFY CODE
-===================================================== */
-app.post("/verify-code", async (req, res) => {
-  try {
-    const { email, code } = req.body;
-
-    const result = await db.query(
-      `SELECT code FROM otp_codes
-       WHERE email = $1 AND expires_at > NOW()`,
-      [email]
-    );
-
-    if (!result.rows.length || result.rows[0].code !== code) {
-      return res.status(400).json({ error: "Invalid or expired code" });
-    }
-
-    await db.query("DELETE FROM otp_codes WHERE email = $1", [email]);
-
-    let userResult = await db.query("SELECT id FROM users WHERE email = $1", [email]);
-    let user = userResult.rows[0];
-
-    if (!user) {
-      const insert = await db.query(
-        "INSERT INTO users (email) VALUES ($1) RETURNING id",
-        [email]
-      );
-      user = insert.rows[0];
-    }
-
-    const token = jwt.sign({ userId: user.id, email }, JWT_SECRET, { expiresIn: "7d" });
-
-    res.cookie("auth_token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      maxAge: 7 * 24 * 60 * 60 * 1000
-    });
-
-    res.json({ ok: true });
-
-  } catch (err) {
-    console.error("VERIFY CODE ERROR", err);
-    res.status(500).json({ error: "Server error" });
-  }
-});
+ 
 
 /* =====================================================
    GET CURRENT USER
