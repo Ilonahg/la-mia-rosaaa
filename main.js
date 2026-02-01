@@ -773,7 +773,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const authCode = document.getElementById("authCode");
 
     const authEmail = document.getElementById("authEmail");
-    const authSubmit = document.getElementById("authSubmit");
+    const authSubmit = document.querySelector("#authOverlay button, .login-modal button, .btn");
+
     const authMessage = document.getElementById("authMessage");
 
     const codeInput = document.getElementById("emailCodeInput");
@@ -843,7 +844,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* ---------- SEND CODE ---------- */
 
-    authSubmit.addEventListener("click", async () => {
+    authSubmit?.addEventListener("click", async () => {
+
         if (locked) return;
 
         const email = authEmail.value.trim();
