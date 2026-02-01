@@ -51,6 +51,18 @@ db.connect()
   .catch(err => console.error("POSTGRES ERROR:", err));
 
 /* =====================================================
+   AUTO CREATE TABLES (OTP)
+===================================================== */
+db.query(`
+  CREATE TABLE IF NOT EXISTS otp_codes (
+    email TEXT PRIMARY KEY,
+    code TEXT NOT NULL,
+    expires_at TIMESTAMP NOT NULL
+  );
+`).then(() => console.log("OTP TABLE READY"))
+  .catch(err => console.error("OTP TABLE ERROR:", err));
+
+/* =====================================================
    EMAIL (GMAIL)
 ===================================================== */
 const transporter = nodemailer.createTransport({

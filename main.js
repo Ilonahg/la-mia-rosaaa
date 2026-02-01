@@ -893,25 +893,29 @@ document.addEventListener("DOMContentLoaded", () => {
         codeMsg.textContent = "Verifying...";
 
         try {
-           const res = await fetch("https://la-mia-rosa-api.onrender.com/verify-code", {
-
+            const res = await fetch("https://la-mia-rosa-api.onrender.com/verify-code", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json"
+                },
                 credentials: "include",
                 body: JSON.stringify({ email, code })
             });
 
             if (!res.ok) throw new Error();
+
             closeOverlay();
             location.href = "account.html";
-        } catch {
+
+        } catch (err) {
+            console.error(err);
             codeMsg.textContent = "Wrong code";
         }
 
         locked = false;
     });
 
-});
+    });
 
 /* =====================================================
    POLICY MODAL — FULL LEGAL CONTENT (LA MIA ROSA)
